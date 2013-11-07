@@ -27,14 +27,14 @@
 							  <thead>
 								  <tr>
 									  <th>Date</th>
-									  <th>Total Logged-in Users</th>
-									  <th>Total Unauthenticated IPs</th>
-									  <th>Total Data (Users)</th>
-                                      <th>Total Data (IPs)</th>
+									  <th>Total Logged-in Users </th>
+									  <th>Total Unauthenticated IPs </th>
+									  <th>Total Data (Users) (MB) </th>
+                                      <th>Total Data (IPs) (MB)</th>
                                       <th>Total Requests Denied (Users)</th>
                                       <th>Total Requests Denied (IPs)</th>
-                                      <th>Total Data Denied (Users)</th>
-                                      <th>Total Data Denied (IPs)</th>
+                                      <th>Total Data Denied (Users) (MB) </th>
+                                      <th>Total Data Denied (IPs) (MB) </th>
 								  </tr>
 							  </thead>
 							  <tbody>
@@ -43,12 +43,12 @@
 									<td class="center"> {{ line.date|date:"D d M Y" }} </td>
 									<td class="center"> {{ line.total_logged_users }} </td>
 									<td class="center"> {{ line.total_logged_unauth_ips }} </td>
-									<td class="center"> {{ line.total_data_users }} </td>
-                                    <td class="center"> {{ line.total_data_unauth_ips }} </td>
+									<td class="center"> {{ line.total_data_users|div:1048576|floatformat:3 }} </td>
+                                    <td class="center"> {{ line.total_data_unauth_ips|div:1048576|floatformat:3 }} </td>
                                     <td class="center"> {{ line.total_requests_denied_users }} </td>
                                     <td class="center"> {{ line.total_requests_denied_ips }} </td>
-                                    <td class="center"> {{ line.total_data_denied_users }} </td>
-                                    <td class="center"> {{ line.total_data_denied_unauth_ips }} </td>
+                                    <td class="center"> {{ line.total_data_denied_users|div:1048576|floatformat:3 }} </td>
+                                    <td class="center"> {{ line.total_data_denied_unauth_ips|div:1048576|floatformat:3 }} </td>
 								</tr>
                                 {% endfor %}
 							  </tbody>
