@@ -26,7 +26,7 @@ def deny_count_report_ips(request):
     context = {'iplogs': iploglist_qs}
     return render_to_response('top-ips-deny-count.html', context)
 
-def json_data(request, type="top-users-bw"):
+def json_data(request, type=""):
     import json
     dict_result = {"aaData": []}
 
@@ -56,7 +56,7 @@ def json_data(request, type="top-users-bw"):
             })
 
     elif iploglist_qs !=None:
-        for obj in userloglist_qs:
+        for obj in iploglist_qs:
             (dict_result['aaData']).append({
                 'ip_addr': obj.ip_addr,
                 'date': obj.date.strftime(format="%a %d %b %Y"),
