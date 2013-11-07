@@ -49,7 +49,7 @@ def json_data(request, type="top-users-bw"):
                 'username': obj.username,
                 'date': obj.date.strftime(format="%a %d %b %Y"),
                 'data_usage': "%3f" % float(obj.data_usage)/1048576,
-                'denied_data_usage': "%3f" % (obj.denied_data_usage)/1048576,
+                'denied_data_usage': "%3f" % float(obj.denied_data_usage)/1048576,
                 'deny_count': obj.deny_count,
                 'first_access': obj.first_access.strftime(format="%H:%M:%S %d-%%m-%Y"),
                 'last_access': obj.last_access.strftime(format="%H:%M:%S %d-%%m-%Y"),
