@@ -55,7 +55,7 @@ class LogProcessor():
     last_update = time.time()
     userlog_dict = dict()
     iplog_dict = dict()
-    objects_requiring_update = Queue.Queue()
+    objects_requiring_update = list()
     lines_recieved = 0    
     lre = re.compile('(?P<date>\d{4}-\d{2}-\d{2}) (?P<timestamp>\d{2}\:\d{2}:\d{2}) (?P<exec_time>\d*) '+
                      '(?P<src_ip>\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}) (?P<username>\S+) \S+ (?P<exception_id>\S+) '+
@@ -125,14 +125,14 @@ class LogReceiver(LineReceiver):
                     obj.last_access = res['date']+' '+res['timestamp']
                 self.log_processor.iplog_dict[res['date']][res['src_ip']] = obj
 
-
             if res['action'] == 'TCP_DENIED':
                 obj.deny_count += 1
                 obj.denied_data_size += int(res['datasize'])
             else:
                 obj.data_usage += int(res['datasize'])
             # Put the object in the requiring update queue
-            self.log_processor.objects_requiring_update.push(obj)
+            self.log_processor.objects_requiring_update.append(obj)
+
         else:
             res['username'] = (res['username']).replace('.','-dot-')            
             if not self.log_processor.userlog_dict.has_key(res['date']):
