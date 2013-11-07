@@ -10,13 +10,7 @@
     <li><a href="#">Top 100 Unauthenticated IPs by Bandwidth - Report</a></li>
 </ul>		
 {% endblock %}
-                'ip_addr': obj.ip_addr,
-                'date': obj.date.strftime(format="%a %d %b %Y"),
-                'data_usage': "%3f" % (float(obj.data_usage)/1048576),
-                'denied_data_size': "%3f" % (float(obj.denied_data_size)/1048576),
-                'deny_count': obj.deny_count,
-                'first_access': obj.first_access.strftime(format="%H:%M:%S %d-%%m-%Y"),
-                'last_access': obj.last_access.strftime(format="%H:%M:%S %d-%%m-%Y"),
+
 {% block widget_row %}
     <div class="row-fluid sortable">
         <div class="box span12">
@@ -29,8 +23,19 @@
                 </div>
             </div>
             <div class="box-content">
-                <table class="table table-striped table-bordered  datatable">
-
+                <table class="table table-striped table-bordered datatable">
+                  <thead>
+                      <tr>
+                          <th>IP Address</th>
+                          <th>Date</th>
+                          <th>Bandwidth Used (MB)</th>
+                          <th>Denied Request Size (MB)</th>
+                          <th>Denied Requests</th>
+                          <th>First Request Time</th>
+                          <th>Last Request Time</th>
+                          <th>Status</th>
+                      </tr>
+                  </thead>
               </table>            
             </div>
         </div><!--/span-->
