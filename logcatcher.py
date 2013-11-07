@@ -13,7 +13,7 @@ from twisted.python import log
 from twisted.internet import reactor
 from twisted.internet.protocol import DatagramProtocol
 from twisted.internet import reactor
-from frontend.models import UserLog, IPLog
+from frontend.models import UserLog, IPLog, DailyStatistics
 import Queue
 
 DATAFILE = 'usersats.json'
@@ -56,6 +56,7 @@ class LogProcessor():
     userlog_dict = dict()
     iplog_dict = dict()
     objects_requiring_update = list()
+    daily_stats = None
     lines_recieved = 0    
     lre = re.compile('(?P<date>\d{4}-\d{2}-\d{2}) (?P<timestamp>\d{2}\:\d{2}:\d{2}) (?P<exec_time>\d*) '+
                      '(?P<src_ip>\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}) (?P<username>\S+) \S+ (?P<exception_id>\S+) '+
@@ -65,8 +66,29 @@ class LogProcessor():
     
     def __init__(self):
         print 'LogProcessor init called %s' % str(self)
+
+        try:
+            stats_obj = DailyStatistics.objects.get(date=datetime.datetime.now().date())
+        except:
+            stats_obj = DailyStatistics()
+            stats_obj.date = datetime.datetime.now().date()
+
+        self.daily_stats = stats_obj
         return
-            
+
+    def update_stats(self):
+        self.daily_stats.total_logged_users = UserLog.objects.count()
+        self.daily_stats.total_logged_unauth_ips = IPLog.objects.count()
+        qs_users = UserLog.objects.all()
+        qs_ips = IPLog.objects.all()
+        self.daily_stats.total_requests_denied_users = qs_users.aggregate(Sum('deny_count'))
+        self.daily_stats.total_requests_denied_ips = qs_ips.aggregate(Sum('deny_count'))
+        self.daily_stats.total_data_users = qs_users.aggregate(Sum('data_usage'))
+        self.daily_stats.total_data_unauth_ips = qs_ips.aggregate(Sum('data_usage'))
+        self.daily_stats.total_data_denied_users = qs_users.aggregate(Sum('denied_data_size'))
+        self.daily_stats.total_data_denied_unauth_ips = qs_ips.aggregate(Sum('denied_data_size'))
+        self.daily_stats.save()
+
 class LogReceiver(LineReceiver):
     delimiter = '\n'
     log_processor = None
@@ -175,6 +197,7 @@ class LogReceiver(LineReceiver):
                     self.log_processor.lines_recieved,
                     len(queue.keys()), res['date']+' '+res['timestamp']
                 )
+                self.log_processor.daily_stats.update_stats()
         return
         
 class LogRecieverFactory(ServerFactory):

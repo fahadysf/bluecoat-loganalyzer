@@ -7,8 +7,8 @@ from django.shortcuts import render_to_response
 from frontend.models import UserLog, IPLog
 
 def bw_report_users(request):
-    userloglist_qs = UserLog.objects.filter(date=datetime.datetime.utcnow().date()).order_by('-data_usage')[:100]
-    context = {'userlogs': userloglist_qs}
+    userloglist_qs = UserLog.objects.filter(date=datetime.datetime.utcnow().date()).order_by('-data_usage')
+    context = {'userlogs': userloglist_qs[:100], }
     return render_to_response('top-users-bw.html', context)
 
 def bw_report_ips(request):

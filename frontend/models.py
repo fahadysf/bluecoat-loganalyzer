@@ -38,3 +38,14 @@ class IPLog(models.Model):
 					[('data_usage', -1)],
 					[('denied_data_size', -1)],
                   ]
+
+class DailyStatistics(models.Model):
+    date = models.DateField()
+    total_logged_users = models.IntegerField(default=0)
+    total_logged_unauth_ips = models.IntegerField(default=0)
+    total_requests_denied_users = models.IntegerField(default=0)
+    total_requests_denied_ips = models.IntegerField(default=0)
+    total_data_users = models.IntegerField(default=0)
+    total_data_unauth_ips = models.IntegerField(default=0)
+    total_data_denied_users = models.IntegerField(default=0)
+    total_data_denied_unauth_ips = models.IntegerField(default=0)
