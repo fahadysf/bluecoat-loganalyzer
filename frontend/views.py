@@ -26,4 +26,4 @@ def deny_count_report_ips(request):
 	return render_to_response('top-ips-deny-count.html', context)
     
 def index(request):
-    bw_report_users(request)
+    return bw_report_users(request)
