@@ -197,7 +197,7 @@ class LogReceiver(LineReceiver):
                     self.log_processor.lines_recieved,
                     len(queue.keys()), res['date']+' '+res['timestamp']
                 )
-                self.log_processor.daily_stats.update_stats()
+                self.log_processor.update_stats()
         return
         
 class LogRecieverFactory(ServerFactory):
