@@ -81,12 +81,12 @@ class LogProcessor():
         self.daily_stats.total_logged_unauth_ips = IPLog.objects.count()
         qs_users = UserLog.objects.all()
         qs_ips = IPLog.objects.all()
-        self.daily_stats.total_requests_denied_users = qs_users.aggregate(Sum('deny_count'))
-        self.daily_stats.total_requests_denied_ips = qs_ips.aggregate(Sum('deny_count'))
-        self.daily_stats.total_data_users = qs_users.aggregate(Sum('data_usage'))
-        self.daily_stats.total_data_unauth_ips = qs_ips.aggregate(Sum('data_usage'))
-        self.daily_stats.total_data_denied_users = qs_users.aggregate(Sum('denied_data_size'))
-        self.daily_stats.total_data_denied_unauth_ips = qs_ips.aggregate(Sum('denied_data_size'))
+        self.daily_stats.total_requests_denied_users = qs_users.aggregate(Sum('deny_count'))['deny_count__sum']
+        self.daily_stats.total_requests_denied_ips = qs_ips.aggregate(Sum('deny_count'))['deny_count__sum']
+        self.daily_stats.total_data_users = qs_users.aggregate(Sum('data_usage'))['data_usage__sum']
+        self.daily_stats.total_data_unauth_ips = qs_ips.aggregate(Sum('data_usage'))['data_usage__sum']
+        self.daily_stats.total_data_denied_users = qs_users.aggregate(Sum('denied_data_size'))['denied_data_size__sum']
+        self.daily_stats.total_data_denied_unauth_ips = qs_ips.aggregate(Sum('denied_data_size'))['denied_data_size__sum']
         self.daily_stats.save()
 
 class LogReceiver(LineReceiver):
