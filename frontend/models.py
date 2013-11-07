@@ -38,3 +38,5 @@ class IPLog(models.Model):
 					[('data_usage', -1)],
 					[('denied_data_size', -1)],
                   ]
+
+class User

@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cas_provider',
     'frontend',
 	# Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
@@ -151,3 +152,7 @@ LOGGING = {
         },
     }
 }
+
+# Login URL Settings
+LOGIN_URL = '/cas/login/'
+LOGOUT_URL = '/cas/logout/'
