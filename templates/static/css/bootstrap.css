@@ -2019,7 +2019,7 @@ table {
   font-weight: bold;
 }
 
-th.align-center {
+td.align-center, th.align-center {
     text-align: center;
 }
 
