@@ -10,7 +10,8 @@ urlpatterns = patterns('',
     url(r'^bw-users/$', 'bcloganalyzer.frontend.views.bw_report_users', name='bw_report_users'),
     url(r'^deny-count-users/$', 'bcloganalyzer.frontend.views.deny_count_report_users', name='bw_report_ips'),
     url(r'^bw-unauthenticated-ips/$', 'bcloganalyzer.frontend.views.bw_report_ips', name='deny_count_report_users'),
-	url(r'^deny-count-unauthenticated-ips/', 'bcloganalyzer.frontend.views.deny_count_report_ips', name='deny_count_report_ips'),
+    url(r'^deny-count-unauthenticated-ips/', 'bcloganalyzer.frontend.views.deny_count_report_ips', name='deny_count_report_ips'),
+    url(r'^json_data/(?P<type>\w+)/$', 'bcloganalyzer.frontend.views.json_data'),
      #url(r'^data/', include('bcloganalyzer.foo.urls')),
 
     # Uncomment the next line to enable the admin:
