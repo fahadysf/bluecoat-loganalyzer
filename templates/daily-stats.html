@@ -26,29 +26,29 @@
 						<table class="table table-bordered">
 							  <thead>
 								  <tr>
-									  <th class="center"> Date </th>
-									  <th class="center"> Total Logged-in Users </th>
-									  <th class="center"> Total Unauthenticated IPs </th>
-									  <th class="center"> Total Data (Users) (MB) </th>
-                                      <th class="center"> Total Data (IPs) (MB)</th>
-                                      <th class="center"> Total Requests Denied (Users)</th>
-                                      <th class="center"> Total Requests Denied (IPs)</th>
-                                      <th class="center"> Total Data Denied (Users) (MB) </th>
-                                      <th class="center"> Total Data Denied (IPs) (MB) </th>
+									  <th class="align-center"> Date </th>
+									  <th class="align-center"> Total Logged-in Users </th>
+									  <th class="align-center"> Total Unauthenticated IPs </th>
+									  <th class="align-center"> Total Data (Users) (MB) </th>
+                                      <th class="align-center"> Total Data (IPs) (MB)</th>
+                                      <th class="align-center"> Total Requests Denied (Users)</th>
+                                      <th class="align-center"> Total Requests Denied (IPs)</th>
+                                      <th class="align-center"> Total Data Denied (Users) (MB) </th>
+                                      <th class="align-center"> Total Data Denied (IPs) (MB) </th>
 								  </tr>
 							  </thead>
 							  <tbody>
                                 {% for line in daily_stats %}
 								<tr>
-									<td class="center"> {{ line.date|date:"D d M Y" }} </td>
-									<td class="center"> {{ line.total_logged_users }} </td>
-									<td class="center"> {{ line.total_logged_unauth_ips }} </td>
-									<td class="center"> {{ line.total_data_users|div:1048576|floatformat:3 }} </td>
-                                    <td class="center"> {{ line.total_data_unauth_ips|div:1048576|floatformat:3 }} </td>
-                                    <td class="center"> {{ line.total_requests_denied_users }} </td>
-                                    <td class="center"> {{ line.total_requests_denied_ips }} </td>
-                                    <td class="center"> {{ line.total_data_denied_users|div:1048576|floatformat:3 }} </td>
-                                    <td class="center"> {{ line.total_data_denied_unauth_ips|div:1048576|floatformat:3 }} </td>
+									<td class="align-center"> {{ line.date|date:"D d M Y" }} </td>
+									<td class="align-center"> {{ line.total_logged_users }} </td>
+									<td class="align-center"> {{ line.total_logged_unauth_ips }} </td>
+									<td class="align-center"> {{ line.total_data_users|div:1048576|floatformat:3 }} </td>
+                                    <td class="align-center"> {{ line.total_data_unauth_ips|div:1048576|floatformat:3 }} </td>
+                                    <td class="align-center"> {{ line.total_requests_denied_users }} </td>
+                                    <td class="align-center"> {{ line.total_requests_denied_ips }} </td>
+                                    <td class="align-center"> {{ line.total_data_denied_users|div:1048576|floatformat:3 }} </td>
+                                    <td class="align-center"> {{ line.total_data_denied_unauth_ips|div:1048576|floatformat:3 }} </td>
 								</tr>
                                 {% endfor %}
 							  </tbody>

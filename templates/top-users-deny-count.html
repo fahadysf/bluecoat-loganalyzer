@@ -40,13 +40,13 @@
                     {% for log in userlogs %}
                     <tr>
                         <td>{{ log.username }}</td>
-                        <td class="center">{{ log.date|date:"D d M Y" }}</td>
-                        <td class="center">{{ log.data_usage|div:1048576|floatformat:3 }}</td>
-                        <td class="center">{{ log.denied_data_size|div:1048576|floatformat:3 }}</td>
-                        <td class="center">{{ log.deny_count }}</td>
-                        <td class="center">{{ log.first_access|date:"H:i:s d-m-Y" }}</td>
-                        <td class="center">{{ log.last_access|date:"H:i:s d-m-Y" }}</td>
-                        <td class="center">
+                        <td class="align-center">{{ log.date|date:"D d M Y" }}</td>
+                        <td class="align-center">{{ log.data_usage|div:1048576|floatformat:3 }}</td>
+                        <td class="align-center">{{ log.denied_data_size|div:1048576|floatformat:3 }}</td>
+                        <td class="align-center">{{ log.deny_count }}</td>
+                        <td class="align-center">{{ log.first_access|date:"H:i:s d-m-Y" }}</td>
+                        <td class="align-center">{{ log.last_access|date:"H:i:s d-m-Y" }}</td>
+                        <td class="align-center">
                             <span class="label label-success">Active</span>
                         </td>
                     </tr>
