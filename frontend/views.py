@@ -66,7 +66,7 @@ def json_data(request, type=""):
                 'first_access': obj.first_access.strftime(format="%H:%M:%S %d-%m-%Y"),
                 'last_access': obj.last_access.strftime(format="%H:%M:%S %d-%m-%Y"),
             })
-    return HttpResponse(json.dumps(dict_result), content_type="application/json")
+    return HttpResponse(json.dumps(dict_result , sort_keys=True, indent=4, separators=(',', ': '), content_type="application/json")
 
 
 def index(request):
