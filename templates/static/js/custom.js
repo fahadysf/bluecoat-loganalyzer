@@ -402,6 +402,7 @@ function template_functions(){
 	$('.btn-setting').click(function(e){
 		e.preventDefault();
 		$('#myModal').modal('show');
+		$('#myModal').modal('show');
 	});
 
 
