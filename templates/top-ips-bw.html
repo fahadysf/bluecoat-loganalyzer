@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="box-content">
-                <table class="table table-striped table-bordered datatable">
+                <table class="table table-striped table-bordered  datatable">
                   <thead>
                       <tr>
                           <th>IP Address</th>
@@ -36,6 +36,22 @@
                           <th>Status</th>
                       </tr>
                   </thead>
+                  <tbody>
+                    {% for log in iplogs %}
+                    <tr>
+                        <td>{{ log.ip_addr }}</td>
+                        <td class="center">{{ log.date|date:"D d M Y" }}</td>
+                        <td class="center">{{ log.data_usage|div:1048576|floatformat:3 }}</td>
+                        <td class="center">{{ log.denied_data_size|div:1048576|floatformat:3 }}</td>
+                        <td class="center">{{ log.deny_count }}</td>
+                        <td class="center">{{ log.first_access|date:"H:i:s d-m-Y" }}</td>
+                        <td class="center">{{ log.last_access|date:"H:i:s d-m-Y" }}</td>
+                        <td class="center">
+                            <span class="label label-success">Active</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
               </table>            
             </div>
         </div><!--/span-->
