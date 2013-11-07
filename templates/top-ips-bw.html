@@ -10,7 +10,13 @@
     <li><a href="#">Top 100 Unauthenticated IPs by Bandwidth - Report</a></li>
 </ul>		
 {% endblock %}
-
+                'ip_addr': obj.ip_addr,
+                'date': obj.date.strftime(format="%a %d %b %Y"),
+                'data_usage': "%3f" % (float(obj.data_usage)/1048576),
+                'denied_data_size': "%3f" % (float(obj.denied_data_size)/1048576),
+                'deny_count': obj.deny_count,
+                'first_access': obj.first_access.strftime(format="%H:%M:%S %d-%%m-%Y"),
+                'last_access': obj.last_access.strftime(format="%H:%M:%S %d-%%m-%Y"),
 {% block widget_row %}			
     <script type="javascript">
     /* ---------- Datable ---------- */
@@ -20,11 +26,13 @@
             "bProcessing": true,
             "sAjaxSource": "json_data/top-ips-bw/",
             "aoColumns": [
-                { "mData": "engine" },
-                { "mData": "browser" },
-                { "mData": "platform" },
-                { "mData": "version" },
-                { "mData": "grade" }
+                { "mData": "ip_addr" },
+                { "mData": "date" },
+                { "mData": "data_usage" },
+                { "mData": "denied_data_size" },
+                { "mData": "deny_count" },
+                { "mData": "first_access" },
+                { "mData": "last_access" }
             ],
 			"sPaginationType": "bootstrap",
 			"oLanguage": {
