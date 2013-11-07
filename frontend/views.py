@@ -4,7 +4,7 @@ import time,datetime
 
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
-from frontend.models import UserLog, IPLog
+from frontend.models import UserLog, IPLog, DailyStatistics
 
 def bw_report_users(request):
     userloglist_qs = UserLog.objects.filter(date=datetime.datetime.utcnow().date()).order_by('-data_usage')
@@ -25,6 +25,12 @@ def deny_count_report_ips(request):
     iploglist_qs = IPLog.objects.filter(date=datetime.datetime.utcnow().date()).order_by('-deny_count')[:100]
     context = {'iplogs': iploglist_qs}
     return render_to_response('top-ips-deny-count.html', context)
+
+def daily_stats(request):
+    daily_stats_qs = DailyStatistics.objects.all()
+    context = {'daily_stats': daily_stats_qs}
+    return render_to_response('daily-stats.html', context)
+
 
 def json_data(request, type=""):
     import json

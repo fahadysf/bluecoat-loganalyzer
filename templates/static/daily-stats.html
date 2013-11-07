@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load mathoperations %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+    <li>
+        <i class="icon-home"></i>
+        <a href="index.html">Home</a> 
+        <i class="icon-angle-right"></i>
+    </li>
+    <li><a href="#">Top 100 Unauthenticated IPs by Bandwidth - Report</a></li>
+</ul>		
+{% endblock %}
+
+{% block widget_row %}
+    <div class="row-fluid sortable">		
+				<div class="box span12">
+					<div class="box-header">
+						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>Bordered Table</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="halflings-icon wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+						<table class="table table-bordered">
+							  <thead>
+								  <tr>
+									  <th>Date</th>
+									  <th>Total Logged-in Users</th>
+									  <th>Total Unauthenticated IPs</th>
+									  <th>Total Data (Users)</th>
+                                      <th>Total Data (IPs)</th>
+                                      <th>Total Requests Denied (Users)</th>
+                                      <th>Total Requests Denied (IPs)</th>
+                                      <th>Total Data Denied (Users)</th>
+                                      <th>Total Data Denied (IPs)</th>
+								  </tr>
+							  </thead>
+							  <tbody>
+                                {% for line in daily_stats %}
+								<tr>
+									<td class="center"> line.date|date:"D d M Y" </td>
+									<td class="center"> line.total_logged_users </td>
+									<td class="center"> line.total_logged_unauth_ips </td>
+									<td class="center"> line.total_data_users </td>
+                                    <td class="center"> line.total_data_unauth_ips </td>
+                                    <td class="center"> line.total_requests_denied_users </td>
+                                    <td class="center"> line.total_requests_denied_ips </td>
+                                    <td class="center"> line.total_data_denied_users </td>
+                                    <td class="center"> line.total_data_denied_unauth_ips </td>
+								</tr>
+							  </tbody>
+						 </table>
+						{% comment %}
+                        <div class="pagination pagination-centered">
+						  <ul>
+							<li><a href="#">Prev</a></li>
+							<li class="active">
+							  <a href="#">1</a>
+							</li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">Next</a></li>
+						  </ul>
+						</div>
+						{% endcomment %}
+					</div>
+				</div><!--/span-->
+    </div><!--/row-->
+{% endblock %}		
