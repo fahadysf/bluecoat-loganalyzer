@@ -1,12 +1,12 @@
 #!/usr/bin/python
-import sys
+
 import re
-import json
+
 import pymongo
 import datetime, time
 import time
-from heapq import nlargest
-from operator import itemgetter
+
+from django.db.models import Sum
 from twisted.internet.protocol import ServerFactory
 from twisted.protocols.basic import LineReceiver
 from twisted.python import log
