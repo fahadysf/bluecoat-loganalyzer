@@ -403,8 +403,8 @@ function template_functions(){
 		e.preventDefault();
 		$('#myModal').modal('show');
 	});
-	
-	
+
+
 	/* ---------- Progress  ---------- */
 
 		$(".simpleProgress").progressbar({
