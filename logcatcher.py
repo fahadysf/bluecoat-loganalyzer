@@ -56,7 +56,11 @@ class LogProcessor():
     userlog_dict = dict()
     iplog_dict = dict()
     lines_recieved = 0    
-    lre = re.compile('(?P<date>\d{4}-\d{2}-\d{2}) (?P<timestamp>\d{2}\:\d{2}:\d{2}) (?P<exec_time>\d*) (?P<src_ip>\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}) (?P<username>\S+) \S+ (?P<exception_id>\S+) (?P<filter_result>\S+) (?P<categories>"[^"]*") \S+\s*(?P<http_status>\S+) (?P<action>\S+) (?P<http_method>\S+) (?P<content_type>\S+) \S+ \S+ \S+ \S+ \S+ \S+ (?P<user_agent>"[\s\S]*"|-) (?P<proxy_ip>\S+) (?P<datasize>\d+) (?P<client_datasize>\d+)')
+    lre = re.compile('(?P<date>\d{4}-\d{2}-\d{2}) (?P<timestamp>\d{2}\:\d{2}:\d{2}) (?P<exec_time>\d*) '+
+                     '(?P<src_ip>\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}) (?P<username>\S+) \S+ (?P<exception_id>\S+) '+
+                     '(?P<filter_result>\S+) (?P<categories>"[^"]*") \S+\s*(?P<http_status>\S+) (?P<action>\S+) '+
+                     '(?P<http_method>\S+) (?P<content_type>\S+) \S+ \S+ \S+ \S+ \S+ \S+ (?P<user_agent>"[\s\S]*"|-) '+
+                     '(?P<proxy_ip>\S+) (?P<datasize>\d+) (?P<client_datasize>\d+)')
     
     def __init__(self):
         print 'LogProcessor init called %s' % str(self)
@@ -154,7 +158,11 @@ class LogReceiver(LineReceiver):
                 for k in self.log_processor.iplog_dict[res['date']].keys():
                     self.log_processor.iplog_dict[res['date']][k].save()
                 self.log_processor.last_update = time.time()
-                print "[%s] Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (str(datetime.datetime.now()), self.log_processor.lines_recieved, len(queue.keys()), res['date']+' '+res['timestamp'])
+                print "[%s] Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
+                    str(datetime.datetime.now()),
+                    self.log_processor.lines_recieved,
+                    len(queue.keys()), res['date']+' '+res['timestamp']
+                )
         return
         
 class LogRecieverFactory(ServerFactory):
