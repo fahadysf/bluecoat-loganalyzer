@@ -40,15 +40,15 @@
 							  <tbody>
                                 {% for line in daily_stats %}
 								<tr>
-									<td class="center"> line.date|date:"D d M Y" </td>
-									<td class="center"> line.total_logged_users </td>
-									<td class="center"> line.total_logged_unauth_ips </td>
-									<td class="center"> line.total_data_users </td>
-                                    <td class="center"> line.total_data_unauth_ips </td>
-                                    <td class="center"> line.total_requests_denied_users </td>
-                                    <td class="center"> line.total_requests_denied_ips </td>
-                                    <td class="center"> line.total_data_denied_users </td>
-                                    <td class="center"> line.total_data_denied_unauth_ips </td>
+									<td class="center"> {{ line.date|date:"D d M Y" }} </td>
+									<td class="center"> {{ line.total_logged_users }} </td>
+									<td class="center"> {{ line.total_logged_unauth_ips }} </td>
+									<td class="center"> {{ line.total_data_users }} </td>
+                                    <td class="center"> {{ line.total_data_unauth_ips }} </td>
+                                    <td class="center"> {{ line.total_requests_denied_users }} </td>
+                                    <td class="center"> {{ line.total_requests_denied_ips }} </td>
+                                    <td class="center"> {{ line.total_data_denied_users }} </td>
+                                    <td class="center"> {{ line.total_data_denied_unauth_ips }} </td>
 								</tr>
                                 {% endfor %}
 							  </tbody>
