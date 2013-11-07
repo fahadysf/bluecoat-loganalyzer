@@ -51,8 +51,8 @@ def json_data(request, type=""):
                 'data_usage': "%3f" % (float(obj.data_usage)/1048576),
                 'denied_data_size': "%3f" % (float(obj.denied_data_size)/1048576),
                 'deny_count': str(obj.deny_count),
-                'first_access': obj.first_access.strftime(format="%H:%M:%S %d-%%m-%Y"),
-                'last_access': obj.last_access.strftime(format="%H:%M:%S %d-%%m-%Y"),
+                'first_access': obj.first_access.strftime(format="%H:%M:%S %d-%m-%Y"),
+                'last_access': obj.last_access.strftime(format="%H:%M:%S %d-%m-%Y"),
             })
 
     elif iploglist_qs !=None:
@@ -63,10 +63,10 @@ def json_data(request, type=""):
                 'data_usage': "%3f" % (float(obj.data_usage)/1048576),
                 'denied_data_size': "%3f" % (float(obj.denied_data_size)/1048576),
                 'deny_count': str(obj.deny_count),
-                'first_access': obj.first_access.strftime(format="%H:%M:%S %d-%%m-%Y"),
-                'last_access': obj.last_access.strftime(format="%H:%M:%S %d-%%m-%Y"),
+                'first_access': obj.first_access.strftime(format="%H:%M:%S %d-%m-%Y"),
+                'last_access': obj.last_access.strftime(format="%H:%M:%S %d-%m-%Y"),
             })
-    return HttpResponse(json.dumps(dict_result))
+    return HttpResponse(json.dumps(dict_result), content_type="application/json")
 
 
 def index(request):
