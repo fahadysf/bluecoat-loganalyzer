@@ -2019,6 +2019,10 @@ table {
   font-weight: bold;
 }
 
+th.align-center {
+    text-align: center;
+}
+
 .table thead th {
   vertical-align: bottom;
 }
