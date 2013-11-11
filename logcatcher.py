@@ -93,8 +93,7 @@ class LogProcessor():
 class LogReceiver(LineReceiver):
     delimiter = '\n'
     log_processor = None
-    
-    
+
     def __init__(self, log_processor):
         self.log_processor = log_processor
     
