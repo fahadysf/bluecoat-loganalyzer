@@ -80,8 +80,8 @@ class LogProcessor():
     def update_stats(self):
         self.daily_stats.total_logged_users = UserLog.objects.count()
         self.daily_stats.total_logged_unauth_ips = IPLog.objects.count()
-        qs_users = UserLog.objects.all()
-        qs_ips = IPLog.objects.all()
+        qs_users = UserLog.objects.filter(date=datetime.datetime.now().date())
+        qs_ips = IPLog.objects.filter(date=datetime.datetime.now().date())
         self.daily_stats.total_requests_denied_users = qs_users.aggregate(Sum('deny_count'))['deny_count__sum']
         self.daily_stats.total_requests_denied_ips = qs_ips.aggregate(Sum('deny_count'))['deny_count__sum']
         self.daily_stats.total_data_users = qs_users.aggregate(Sum('data_usage'))['data_usage__sum']
@@ -164,7 +164,6 @@ class LogReceiver(LineReceiver):
             self.log_processor.objects_requiring_update.append(obj)
 
         else:
-            res['username'] = (res['username']).replace('.','-dot-')            
             if not self.log_processor.userlog_dict.has_key(res['date']):
                 self.log_processor.userlog_dict[res['date']] = {}
 

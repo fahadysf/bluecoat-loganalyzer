@@ -75,7 +75,7 @@ def json_data(request, type=""):
     return HttpResponse(json.dumps( dict_result , sort_keys=True, indent=4, separators=(',', ': ') ), content_type="application/json")
 
 def generate_blocking_cpl(request):
-    context = {'blocked_for_quota_user_list': list(UserLog.objects.filter(blocked=True))}
+    context = {'blocked_for_quota_user_list': list(UserLog.objects.filter(blocked=True, date=datetime.datetime.utcnow()))}
     resp = render_to_response('central-policy-file.cpl', context)
     resp['Content-Type'] = 'text/plain'
     return resp
