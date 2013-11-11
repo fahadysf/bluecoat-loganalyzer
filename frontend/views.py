@@ -80,7 +80,7 @@ def generate_blocking_cpl(request):
     resp['Content-Type'] = 'text/plain'
     return resp
 
-def user_stats(request):
+def user_stats(request, username=None):
     context = {}
     return render_to_response('user-stats.html', context)
 
