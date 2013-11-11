@@ -153,6 +153,5 @@ LOGGING = {
     }
 }
 
-# Login URL Settings
-LOGIN_URL = '/cas/login/'
-LOGOUT_URL = '/cas/logout/'
+# Default Limit for Download Data (eg. 1.5 GB)
+DEFAULT_DATA_LIMIT = 1.5*(1024**3)

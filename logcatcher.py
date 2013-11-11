@@ -13,7 +13,7 @@ from twisted.python import log
 from twisted.internet import reactor
 from twisted.internet.protocol import DatagramProtocol
 from twisted.internet import reactor
-from frontend.models import UserLog, IPLog, DailyStatistics, LimitSettings
+from frontend.models import UserLog, IPLog, DailyStatistics
 import Queue
 
 DATAFILE = 'usersats.json'
@@ -58,7 +58,6 @@ class LogProcessor():
     objects_requiring_update = list()
     daily_stats = None
     lines_recieved = 0
-    limit_settings = LimitSettings.objects.get()
     lre = re.compile('(?P<date>\d{4}-\d{2}-\d{2}) (?P<timestamp>\d{2}\:\d{2}:\d{2}) (?P<exec_time>\d*) '+
                      '(?P<src_ip>\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}) (?P<username>\S+) \S+ (?P<exception_id>\S+) '+
                      '(?P<filter_result>\S+) (?P<categories>"[^"]*") \S+\s*(?P<http_status>\S+) (?P<action>\S+) '+
@@ -115,7 +114,6 @@ class LogReceiver(LineReceiver):
         self.process_logline(line)
  
     def process_logline(self,line):
-        limit_settings = self.log_processor.limit_settings
         self.log_processor.lines_recieved +=1
         global queue
         try:
@@ -155,10 +153,6 @@ class LogReceiver(LineReceiver):
                 obj.denied_data_size += int(res['datasize'])
             else:
                 obj.data_usage += int(res['datasize'])
-            # Check if limit has been exceeded and block if necessary
-            if (obj.blocked == False) and (obj.data_usage >= limit_settings.default_limit) and (obj.ip_addr not in limit_settings.exception_list):
-                obj.blocked = True
-                obj.save()
             # Put the object in the requiring update queue
             self.log_processor.objects_requiring_update.append(obj)
 
@@ -184,19 +178,10 @@ class LogReceiver(LineReceiver):
                 obj.denied_data_size += int(res['datasize'])
             else:
                 obj.data_usage += int(res['datasize'])
-            if (obj.blocked == False) and (obj.data_usage >= limit_settings.default_limit) and (obj.username not in limit_settings.exception_list):
-                obj.blocked = True
-                obj.save()
             # Put the object in the requiring update queue
             self.log_processor.objects_requiring_update.append(obj)
 
             if (time.time() - self.log_processor.last_update >= 5.0):
-                """
-                for k in self.log_processor.userlog_dict[res['date']].keys():
-                    self.log_processor.userlog_dict[res['date']][k].save()
-                for k in self.log_processor.iplog_dict[res['date']].keys():
-                    self.log_processor.iplog_dict[res['date']][k].save()
-                """
                 while len(self.log_processor.objects_requiring_update)>0:
                     obj = self.log_processor.objects_requiring_update.pop()
                     obj.save()
@@ -207,8 +192,6 @@ class LogReceiver(LineReceiver):
                     len(queue.keys()), res['date']+' '+res['timestamp']
                 )
                 self.log_processor.update_stats()
-                # Re-read quota-settings from DB
-                self.log_processor.limit_settings = LimitSettings.objects.get()
         return
         
 class LogRecieverFactory(ServerFactory):

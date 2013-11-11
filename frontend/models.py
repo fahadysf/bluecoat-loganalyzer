@@ -1,7 +1,13 @@
 from django.db import models
 from djangotoolbox.fields import ListField
 import datetime
+import settings
 # Create your models here.
+
+class PermanentLimitExceptions(models.Model):
+    username = models.CharField(blank=True, max_length=200, default='')
+    ip_addr = models.CharField(blank=True, max_length=200, default='')
+    data_limit = models.IntegerField(default=0)
 
 class UserLog(models.Model):
     date = models.DateField()
@@ -9,10 +15,30 @@ class UserLog(models.Model):
     last_access = models.DateTimeField(auto_now_add=True, blank=True)
     deny_count = models.IntegerField(default=0)
     data_usage = models.IntegerField(default=0)
+    custom_limit = models.IntegerField(default=-1)
     denied_data_size = models.IntegerField(default=0)
     username = models.CharField(max_length=200)
     blocked = models.BooleanField(default=False)
-    
+
+    def data_limit(self):
+        exception = PermanentLimitExceptions.objects.get(username=self.username)
+        if exception:
+            return exception.data_limit
+        elif self.custom_limit != -1:
+            return self.custom_limit
+        else:
+            return settings.DEFAULT_DATA_LIMIT
+
+    def is_blocked(self):
+        if self.data_usage >= self.data_limit():
+            return True
+        else:
+            return False
+
+    def save(self):
+        self.blocked = self.is_blocked()
+        super(UserLog, self).save()
+
     class MongoMeta:
         indexes = [
                     [('username', 1)],
@@ -27,10 +53,30 @@ class IPLog(models.Model):
     last_access = models.DateTimeField(auto_now_add=True, blank=True)
     deny_count = models.IntegerField(default=0)
     data_usage = models.IntegerField(default=0)
+    custom_limit = models.IntegerField(default=-1)
     denied_data_size = models.IntegerField(default=0)
     ip_addr = models.CharField(max_length=200)
     blocked = models.BooleanField(default=False)
-    
+
+    def data_limit(self):
+        exception = PermanentLimitExceptions.objects.get(ip_addr=self.ip_addr)
+        if exception:
+            return exception.data_limit
+        elif self.custom_limit != -1:
+            return self.custom_limit
+        else:
+            return settings.DEFAULT_DATA_LIMIT
+
+    def is_blocked(self):
+        if self.data_usage >= self.data_limit():
+            return True
+        else:
+            return False
+
+    def save(self):
+        self.blocked = self.is_blocked()
+        super(UserLog, self).save()
+
     class MongoMeta:
         indexes = [
                     [('ip_addr', 1)],
@@ -50,7 +96,4 @@ class DailyStatistics(models.Model):
     total_data_denied_users = models.IntegerField(default=0)
     total_data_denied_unauth_ips = models.IntegerField(default=0)
 
-class LimitSettings(models.Model):
-    default_limit = models.IntegerField(default=1.5*(1024**3))
-    exception_list = ListField()
-    exception_limit = models.IntegerField(default=5*(1024**3))
+
