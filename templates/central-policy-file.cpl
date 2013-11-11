@@ -1,7 +1,7 @@
 define condition blocked_for_quota_violation
  {% for user in blocked_for_quota_user_list %}
-  realm=KAMC_RD_SEQUENCE user="{user}"
-  realm=KAMC_RD_IWA_PERSONAL user="{user}"
+  realm=KAMC_RD_SEQUENCE user="{{ user }}"
+  realm=KAMC_RD_IWA_PERSONAL user="{{ user }}"
  {% endfor %}
 end
 
