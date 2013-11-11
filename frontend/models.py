@@ -21,7 +21,10 @@ class UserLog(models.Model):
     blocked = models.BooleanField(default=False)
 
     def data_limit(self):
-        exception = PermanentLimitExceptions.objects.get(username=self.username)
+        try:
+            exception = PermanentLimitExceptions.objects.get(username=self.username)
+        except:
+            exception = None
         if exception:
             return exception.data_limit
         elif self.custom_limit != -1:
@@ -59,7 +62,11 @@ class IPLog(models.Model):
     blocked = models.BooleanField(default=False)
 
     def data_limit(self):
-        exception = PermanentLimitExceptions.objects.get(ip_addr=self.ip_addr)
+        try:
+            exception = PermanentLimitExceptions.objects.get(username=self.username)
+        except:
+            exception = None
+        
         if exception:
             return exception.data_limit
         elif self.custom_limit != -1:
