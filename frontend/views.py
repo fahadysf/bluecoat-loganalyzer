@@ -76,7 +76,9 @@ def json_data(request, type=""):
 
 def generate_blocking_cpl(request):
     context = {}
-    return render_to_response('central-policy-file.cpl', context, content_type="text/plain")
+    resp = render_to_response('central-policy-file.cpl', context)
+    resp['Content-Type'] = 'text/plain'
+    return resp
 
 
 def index(request):
