@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^daily-stats/', 'bcloganalyzer.frontend.views.daily_stats', name='daily_stats'),
     url(r'^json_data/(?P<type>\S+)/', 'bcloganalyzer.frontend.views.json_data'),
     url(r'^central-policy-file/', 'bcloganalyzer.frontend.views.generate_blocking_cpl'),
+    url(r'^user-stats/(?P<username>\S+)/', 'bcloganalyzer.frontend.views.user_stats'),
     url(r'^cas/', include('cas_provider.urls')),
 
     # Uncomment the next line to enable the admin:
