@@ -47,7 +47,11 @@
                         <td class="align-center">{{ log.first_access|date:"H:i:s d-m-Y" }}</td>
                         <td class="align-center">{{ log.last_access|date:"H:i:s d-m-Y" }}</td>
                         <td class="align-center">
-                            <span class="label label-success">Active</span>
+                        {% if log.blocked %}
+                            <span class="label label-warning">Blocked</span>
+                        {% else %}
+                           <span class="label label-success">Active</span>
+                        {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
