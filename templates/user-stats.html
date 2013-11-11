@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load mathoperations %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+    <li>
+        <i class="icon-home"></i>
+        <a href="index.html">Home</a>
+        <i class="icon-angle-right"></i>
+    </li>
+    <li><a href="#">Top 100 Unauthenticated IPs by Bandwidth - Report</a></li>
+</ul>
+{% endblock %}
+
+{% block widget_row %}
+    <div class="row-fluid sortable">
+				<div class="box span12">
+					<div class="box-header">
+						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>Bordered Table</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="halflings-icon wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+						<table class="table table-bordered">
+							  <thead>
+								  <tr>
+									  <th class="align-center"> Date </th>
+									  <th class="align-center"> Total Logged-in Users </th>
+									  <th class="align-center"> Total Unauthenticated IPs </th>
+									  <th class="align-center"> Total Data (Users) (MB) </th>
+                                      <th class="align-center"> Total Data (IPs) (MB)</th>
+                                      <th class="align-center"> Total Requests Denied (Users)</th>
+                                      <th class="align-center"> Total Requests Denied (IPs)</th>
+                                      <th class="align-center"> Total Data Denied (Users) (MB) </th>
+                                      <th class="align-center"> Total Data Denied (IPs) (MB) </th>
+								  </tr>
+							  </thead>
+							  <tbody>
+                                {% for line in daily_stats %}
+								<tr>
+									<td class="align-center"> {{ line.date|date:"D d M Y" }} </td>
+									<td class="align-center"> {{ line.total_logged_users }} </td>
+									<td class="align-center"> {{ line.total_logged_unauth_ips }} </td>
+									<td class="align-center"> {{ line.total_data_users|div:1048576|floatformat:3 }} </td>
+                                    <td class="align-center"> {{ line.total_data_unauth_ips|div:1048576|floatformat:3 }} </td>
+                                    <td class="align-center"> {{ line.total_requests_denied_users }} </td>
+                                    <td class="align-center"> {{ line.total_requests_denied_ips }} </td>
+                                    <td class="align-center"> {{ line.total_data_denied_users|div:1048576|floatformat:3 }} </td>
+                                    <td class="align-center"> {{ line.total_data_denied_unauth_ips|div:1048576|floatformat:3 }} </td>
+								</tr>
+                                {% endfor %}
+							  </tbody>
+						 </table>
+
+					</div>
+				</div><!--/span-->
+    </div><!--/row-->
+{% endblock %}

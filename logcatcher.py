@@ -209,6 +209,8 @@ class LogReceiver(LineReceiver):
                     len(queue.keys()), res['date']+' '+res['timestamp']
                 )
                 self.log_processor.update_stats()
+                # Re-read quota-settings from DB
+                self.log_processor.limit_settings = LimitSettings.objects.get()
         return
         
 class LogRecieverFactory(ServerFactory):
