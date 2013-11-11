@@ -66,7 +66,7 @@ class IPLog(models.Model):
             exception = PermanentLimitExceptions.objects.get(username=self.username)
         except:
             exception = None
-        
+
         if exception:
             return exception.data_limit
         elif self.custom_limit != -1:
@@ -82,7 +82,7 @@ class IPLog(models.Model):
 
     def save(self):
         self.blocked = self.is_blocked()
-        super(UserLog, self).save()
+        super(IPLog, self).save()
 
     class MongoMeta:
         indexes = [
