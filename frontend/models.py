@@ -51,6 +51,6 @@ class DailyStatistics(models.Model):
     total_data_denied_unauth_ips = models.IntegerField(default=0)
 
 class LimitSettings(models.Model):
-    default_limit = models.IntegerField()
+    default_limit = models.IntegerField(default=2000)
     exception_list = ListField()
-    exception_limit = models.IntegerField()
+    exception_limit = models.IntegerField(default=5000)

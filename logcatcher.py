@@ -156,9 +156,11 @@ class LogReceiver(LineReceiver):
                 obj.denied_data_size += int(res['datasize'])
             else:
                 obj.data_usage += int(res['datasize'])
-            # Put the object in the requiring update queue
-            if (obj.data_usage >= limit_settings.default_limit) and (obj.ip_addr not in limit_settings.exception_list):
+            # Check if limit has been exceeded and block if necessary
+            if (obj.blocked == False) and (obj.data_usage >= limit_settings.default_limit) and (obj.ip_addr not in limit_settings.exception_list):
                 obj.blocked = True
+                obj.save()
+            # Put the object in the requiring update queue
             self.log_processor.objects_requiring_update.append(obj)
 
         else:
@@ -184,6 +186,9 @@ class LogReceiver(LineReceiver):
                 obj.denied_data_size += int(res['datasize'])
             else:
                 obj.data_usage += int(res['datasize'])
+            if (obj.blocked == False) and (obj.data_usage >= limit_settings.default_limit) and (obj.username not in limit_settings.exception_list):
+                obj.blocked = True
+                obj.save()
             # Put the object in the requiring update queue
             self.log_processor.objects_requiring_update.append(obj)
 
