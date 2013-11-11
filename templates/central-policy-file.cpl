@@ -1,14 +1,14 @@
 define condition blocked_for_quota_2g_users
  {% for user in 2g_blocked_users %}
  user={ user }
- {% end for %}
+ {% endfor %}
 end
 
 define condition blocked_for_quota_5g_users
  {% for user in 2g_blocked_users %}
  user={ user }
- {% end for %}
+ {% endfor %}
 end
 
-<Proxy> 
+<Proxy>
  condition=blocked_for_quota_2g_users DENY("Access denied for exceeding daily Quota of 2GB per user")
