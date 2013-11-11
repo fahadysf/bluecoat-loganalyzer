@@ -13,7 +13,7 @@ from twisted.python import log
 from twisted.internet import reactor
 from twisted.internet.protocol import DatagramProtocol
 from twisted.internet import reactor
-from frontend.models import UserLog, IPLog, DailyStatistics
+from frontend.models import UserLog, IPLog, DailyStatistics, LimitSettings
 import Queue
 
 DATAFILE = 'usersats.json'
@@ -57,7 +57,8 @@ class LogProcessor():
     iplog_dict = dict()
     objects_requiring_update = list()
     daily_stats = None
-    lines_recieved = 0    
+    lines_recieved = 0
+    limit_settings = LimitSettings.objects.get()
     lre = re.compile('(?P<date>\d{4}-\d{2}-\d{2}) (?P<timestamp>\d{2}\:\d{2}:\d{2}) (?P<exec_time>\d*) '+
                      '(?P<src_ip>\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}) (?P<username>\S+) \S+ (?P<exception_id>\S+) '+
                      '(?P<filter_result>\S+) (?P<categories>"[^"]*") \S+\s*(?P<http_status>\S+) (?P<action>\S+) '+
@@ -115,6 +116,7 @@ class LogReceiver(LineReceiver):
         self.process_logline(line)
  
     def process_logline(self,line):
+        limit_settings = self.log_processor.limit_settings
         self.log_processor.lines_recieved +=1
         global queue
         try:
@@ -129,6 +131,8 @@ class LogReceiver(LineReceiver):
             raise
         if res == {} or res==None:
             print "NON LOG DATA:"+line
+
+        # For logs without usernames (unauthenticated IPs)
         elif res['username']=='-':
             if not self.log_processor.iplog_dict.has_key(res['date']):
                 self.log_processor.iplog_dict[res['date']] = {}
@@ -153,6 +157,8 @@ class LogReceiver(LineReceiver):
             else:
                 obj.data_usage += int(res['datasize'])
             # Put the object in the requiring update queue
+            if (obj.data_usage >= limit_settings.default_limit) and (obj.ip_addr not in limit_settings.exception_list):
+                obj.blocked = True
             self.log_processor.objects_requiring_update.append(obj)
 
         else:

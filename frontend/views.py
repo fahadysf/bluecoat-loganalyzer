@@ -74,5 +74,10 @@ def json_data(request, type=""):
             })
     return HttpResponse(json.dumps( dict_result , sort_keys=True, indent=4, separators=(',', ': ') ), content_type="application/json")
 
+def generate_blocking_cpl(request):
+    context = {}
+    render_to_response('central-policy-file.cpl', context)
+
+
 def index(request):
     return bw_report_users(request)
