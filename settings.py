@@ -154,4 +154,4 @@ LOGGING = {
 }
 
 # Default Limit for Download Data (eg. 1.5 GB)
-DEFAULT_DATA_LIMIT = 1.5*(1024**3)
+DEFAULT_DATA_LIMIT = int(1.5*(1024**3))
