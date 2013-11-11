@@ -1,14 +1,9 @@
-define condition blocked_for_quota_2g_users
- {% for user in 2g_blocked_users %}
- user={ user }
- {% endfor %}
-end
-
-define condition blocked_for_quota_5g_users
- {% for user in 2g_blocked_users %}
- user={ user }
+define condition blocked_for_quota_violation
+ {% for user in blocked_for_quota_user_list %}
+  realm=KAMC_RD_SEQUENCE user="{user}"
+  realm=KAMC_RD_IWA_PERSONAL user="{user}"
  {% endfor %}
 end
 
 <Proxy>
- condition=blocked_for_quota_2g_users DENY("Access denied for exceeding daily Quota of 2GB per user")
+ condition=blocked_for_quota_violation DENY("Access denied for exceeding daily Quota of 2GB per user")
