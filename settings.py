@@ -3,8 +3,7 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-SITE_ID = u'5281db0ecd33b20dfaa02e2d'
-
+SITE_ID = 1
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -14,12 +13,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django_mongodb_engine', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'bluecoat-stats-db',     # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'bluecoatstatsdb',     # Or path to database file if using sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': 'sql000sql',                    # Not used with sqlite3.
+        'HOST': '127.0.0.1',                        # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                                 # Set to empty string for default. Not used with sqlite3.
     }
 }
 
