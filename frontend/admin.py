@@ -5,7 +5,7 @@ from frontend.models import UserLog, IPLog, PermanentLimitExceptions
 
 
 class UserLogAdmin(admin.ModelAdmin):
-    list_display = ('username','date','data_usage')
+    list_display = ('date','data_usage','__str__')
 
 class IPLogAdmin(admin.ModelAdmin):
     list_display = ('ip_addr','date','data_usage')
