@@ -3,8 +3,7 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-SITE_ID = u'5281db0ecd33b20dfaa02e2d'
-
+SITE_ID = 1
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
