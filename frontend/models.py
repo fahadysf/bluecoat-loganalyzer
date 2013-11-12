@@ -25,8 +25,6 @@ class UserLog(models.Model):
     denied_data_size = models.IntegerField(default=0)
     username = models.CharField(max_length=200)
     blocked = models.BooleanField(default=False)
-    data_usage_mb = data_usage/(1024**2)
-
 
     def data_limit(self):
         try:
@@ -40,7 +38,8 @@ class UserLog(models.Model):
         else:
             return settings.DEFAULT_DATA_LIMIT
 
-    data_usage_mb = data_usage/(1024**2)
+    def data_usage_mb(self):
+        return float(data_usage/(1024**2))
 
     def is_blocked(self):
         if self.data_usage >= self.data_limit():
@@ -74,7 +73,7 @@ class IPLog(models.Model):
     ip_addr = models.CharField(max_length=200)
     blocked = models.BooleanField(default=False)
     def data_usage_mb(self):
-        return data_usage/(1024**2)
+        return float(data_usage/(1024**2))
 
     def data_limit(self):
         try:
