@@ -184,10 +184,7 @@ class LogReceiver(LineReceiver):
             if (time.time() - self.log_processor.last_update >= 5.0):
                 while len(self.log_processor.objects_requiring_update)>0:
                     obj = self.log_processor.objects_requiring_update.pop()
-                    try:
-                        obj.custom_limit = UserLog.objects.get(id=obj.id).custom_limit
-                    except:
-                        pass
+                    b
                     obj.save()
                 self.log_processor.last_update = time.time()
                 print "[%s] Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
