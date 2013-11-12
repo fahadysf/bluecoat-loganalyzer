@@ -181,7 +181,7 @@ class LogReceiver(LineReceiver):
             # Put the object in the requiring update queue
             self.log_processor.objects_requiring_update.append(obj)
 
-            if (time.time() - self.log_processor.last_update >= 5.0):
+            if (time.time() - self.log_processor.last_update >= 10.0):
                 while len(self.log_processor.objects_requiring_update)>0:
                     obj = self.log_processor.objects_requiring_update.pop()
                     obj.save()
