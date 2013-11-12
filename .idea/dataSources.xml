@@ -3,7 +3,7 @@
   <component name="DataSourceManagerImpl" format="xml" hash="1555047964">
     <data-source source="LOCAL" name="Django default" uuid="e0f0b6f8-a177-4173-a7f0-83b922a961da">
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://127.0.0.1/bluecoat-stats-db</jdbc-url>
+      <jdbc-url>jdbc:mysql://127.0.0.1/bluecoatstatsdb</jdbc-url>
       <user-name>root</user-name>
       <user-password>dfd9dfdbdfc6df9adf9adf9adfd9dfdbdfc6</user-password>
       <libraries>
