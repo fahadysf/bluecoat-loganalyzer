@@ -7,13 +7,9 @@ from frontend.models import UserLog, IPLog, PermanentLimitExceptions
 class UserLogAdmin(admin.ModelAdmin):
     pass
 
-
-
 class IPLogAdmin(admin.ModelAdmin):
     pass
 
-
-admin.site.register(PermanentLimitExceptions)
 class PermanentLimitExceptionsAdmin(admin.ModelAdmin):
     pass
 
