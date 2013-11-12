@@ -13,10 +13,10 @@ class IPLogAdmin(admin.ModelAdmin):
     pass
 
 
-adminte.site.register(PermanentLimitExceptions)
+admin.site.register(PermanentLimitExceptions)
 class PermanentLimitExceptionsAdmin(admin.ModelAdmin):
     pass
 
-adminte.site.register(UserLog)
-adminte.site.register(IPLog)
-adminte.site.register(PermanentLimitExceptions)
+admin.site.register(UserLog)
+admin.site.register(IPLog)
+admin.site.register(PermanentLimitExceptions)
