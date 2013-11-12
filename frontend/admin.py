@@ -5,10 +5,11 @@ from frontend.models import UserLog, IPLog, PermanentLimitExceptions
 
 
 class UserLogAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('username','date','data_usage','deny_count','custom_limit','blocked')
 
 class IPLogAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('ip_addr','date','data_usage','deny_count','custom_limit','blocked')
+
 
 class PermanentLimitExceptionsAdmin(admin.ModelAdmin):
     pass
