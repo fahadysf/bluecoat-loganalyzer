@@ -6,7 +6,7 @@ import pymongo
 import datetime, time
 import time
 
-from django.db.models import Sum, F
+from django.db.models import Sum
 from twisted.internet.protocol import ServerFactory
 from twisted.protocols.basic import LineReceiver
 from twisted.python import log
@@ -184,7 +184,6 @@ class LogReceiver(LineReceiver):
             if (time.time() - self.log_processor.last_update >= 5.0):
                 while len(self.log_processor.objects_requiring_update)>0:
                     obj = self.log_processor.objects_requiring_update.pop()
-                    obj.custom_limit = F('custom_limit') + 0
                     obj.save()
                 self.log_processor.last_update = time.time()
                 print "[%s] Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
