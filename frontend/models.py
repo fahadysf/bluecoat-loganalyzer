@@ -9,6 +9,12 @@ class PermanentLimitExceptions(models.Model):
     ip_addr = models.CharField(blank=True, max_length=200, default='')
     data_limit = models.IntegerField(default=0)
 
+    def __str__(self):
+        if self.username != '':
+            return self.username
+        else:
+            return self.ip_addr
+
 class UserLog(models.Model):
     date = models.DateField()
     first_access = models.DateTimeField(auto_now_add=True, blank=True)
@@ -41,6 +47,9 @@ class UserLog(models.Model):
     def save(self):
         self.blocked = self.is_blocked()
         super(UserLog, self).save()
+
+    def __str__(self):
+        return self.username
 
     class MongoMeta:
         indexes = [
@@ -84,6 +93,9 @@ class IPLog(models.Model):
         self.blocked = self.is_blocked()
         super(IPLog, self).save()
 
+    def __str__(self):
+        return self.ip_addr
+
     class MongoMeta:
         indexes = [
                     [('ip_addr', 1)],
@@ -103,4 +115,5 @@ class DailyStatistics(models.Model):
     total_data_denied_users = models.IntegerField(default=0)
     total_data_denied_unauth_ips = models.IntegerField(default=0)
 
-
+    def __str__(self):
+        return str(self.date)
