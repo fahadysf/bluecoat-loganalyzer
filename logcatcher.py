@@ -195,6 +195,8 @@ class LogReceiver(LineReceiver):
                 self.log_processor.objects_requiring_update.append(obj.username)
             pending_lines = self.log_processor.lines_recieved - self.log_processor.last_update_lines
             lag = (datetime.datetime.now() - obj.last_access).seconds
+
+        try:
             if (time.time() - self.log_processor.last_update >= 5.0):
                 if (lag < 200) or (pending_lines >= 10000):
                     print "Updating database"
@@ -221,7 +223,9 @@ class LogReceiver(LineReceiver):
                         pending_lines,
                     )
                     self.log_processor.last_update = time.time()
-            return
+        except:
+            pass
+        return
         
 class LogRecieverFactory(ServerFactory):
     
