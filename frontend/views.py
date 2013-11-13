@@ -75,8 +75,8 @@ def json_data(request, type=""):
     return HttpResponse(json.dumps( dict_result , sort_keys=True, indent=4, separators=(',', ': ') ), content_type="application/json")
 
 def generate_blocking_cpl(request):
-    userlog_qs = UserLog.objects.filter(blocked=True, date=datetime.datetime.utcnow())
-    iplog_qs = UserLog.objects.filter(blocked=True, date=datetime.datetime.utcnow())
+    userlog_qs = UserLog.objects.filter(blocked=True, date=datetime.datetime.now())
+    iplog_qs = UserLog.objects.filter(blocked=True, date=datetime.datetime.now())
     blocked_users = list()
     blocked_ips = list()
     for obj in userlog_qs:
