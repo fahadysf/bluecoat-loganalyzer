@@ -30,13 +30,13 @@ class DailyExceptions(models.Model):
     def save(self):
         if self.username != '':
             try:
-                userobj = UserLog.objects.get(username=self.username)
+                userobj = UserLog.objects.get(date=self.date, username=self.username)
                 userobj.save()
             except:
                 raise
         elif self.ip_addr != '':
             try:
-                ipobj = IPLog.objects.get(ip_addr=self.ip_addr)
+                ipobj = IPLog.objects.get(date=self.date, ip_addr=self.ip_addr)
                 ipobj.save()
             except:
                 raise
