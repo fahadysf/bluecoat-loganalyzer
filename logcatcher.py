@@ -210,7 +210,7 @@ class LogReceiver(LineReceiver):
                         obj.save()
                     self.log_processor.last_update = time.time()
                     self.log_processor.last_update_lines = self.log_processor.lines_recieved
-                    print "[%s]Updateing Database: Lines Processed since last update: %d - Total Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
+                    print "[%s] Updateing Database: Lines Processed since last update: %d - Total Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
                         str(datetime.datetime.now()),
                         pending_lines,
                         self.log_processor.lines_recieved,
