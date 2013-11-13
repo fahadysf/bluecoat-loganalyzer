@@ -160,6 +160,7 @@ class LogReceiver(LineReceiver):
             else:
                 obj.data_usage += int(res['datasize'])
             # Put the object in the requiring update queue
+            self.log_processor.userlog_dict[res['date']][res['username']] = obj
             if not obj.ip_addr in self.log_processor.objects_requiring_update:
                 self.log_processor.objects_requiring_update.append(obj.ip_addr)
 
@@ -182,7 +183,6 @@ class LogReceiver(LineReceiver):
                     obj.last_access = datetime.datetime.strptime( res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
                     obj.last_access = obj.last_access + datetime.timedelta(hours=settings.UTC_OFFSET)
                     obj.first_access = obj.last_access
-                self.log_processor.userlog_dict[res['date']][res['username']] = obj
 
             if res['action'] == 'TCP_DENIED':
                 obj.deny_count += 1
@@ -190,6 +190,7 @@ class LogReceiver(LineReceiver):
             else:
                 obj.data_usage += int(res['datasize'])
             # Put the object in the requiring update queue
+            self.log_processor.userlog_dict[res['date']][res['username']] = obj
             if not obj.username in self.log_processor.objects_requiring_update:
                 self.log_processor.objects_requiring_update.append(obj.username)
             pending_lines = self.log_processor.lines_recieved - self.log_processor.last_update_lines
