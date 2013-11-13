@@ -58,7 +58,7 @@ class LogProcessor():
     last_update_lines = 0
     userlog_dict = dict()
     iplog_dict = dict()
-    objects_requiring_update = set()
+    objects_requiring_update = list()
     daily_stats = None
     lines_recieved = 0
     lre = re.compile('(?P<date>\d{4}-\d{2}-\d{2}) (?P<timestamp>\d{2}\:\d{2}:\d{2}) (?P<exec_time>\d*) '+
@@ -160,7 +160,8 @@ class LogReceiver(LineReceiver):
             else:
                 obj.data_usage += int(res['datasize'])
             # Put the object in the requiring update queue
-            self.log_processor.objects_requiring_update.append(obj)
+            if not obj.ip_addr in self.log_processor.objects_requiring_update:
+                self.log_processor.objects_requiring_update.append(obj.ip_addr)
 
         else:
             if not self.log_processor.userlog_dict.has_key(res['date']):
@@ -189,14 +190,19 @@ class LogReceiver(LineReceiver):
             else:
                 obj.data_usage += int(res['datasize'])
             # Put the object in the requiring update queue
-            self.log_processor.objects_requiring_update.add(obj)
+            if not obj.username in self.log_processor.objects_requiring_update:
+                self.log_processor.objects_requiring_update.append(obj.username)
             pending_lines = self.log_processor.lines_recieved - self.log_processor.last_update_lines
             lag = (datetime.datetime.now() - obj.last_access).seconds
             if (time.time() - self.log_processor.last_update >= 5.0):
                 if (lag < 200) or (pending_lines >= 100000):
                     print "Updating database"
                     while len(self.log_processor.objects_requiring_update)>0:
-                        obj = self.log_processor.objects_requiring_update.pop()
+                        u_or_ip = self.log_processor.objects_requiring_update.pop()
+                        try:
+                            obj = self.log_processor.userlog_dict[res['date']][u_or_ip]
+                        except:
+                            obj = self.log_processor.iplog_dict[res['date']][u_or_ip]
                         obj.save()
                     self.log_processor.last_update = time.time()
                     self.log_processor.last_update_lines = self.log_processor.lines_recieved
