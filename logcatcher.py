@@ -179,7 +179,7 @@ class LogReceiver(LineReceiver):
                     obj = UserLog()
                     obj.username = res['username']
                     obj.date = res['date']
-                    obj.last_access = timestmap
+                    obj.last_access = timestamp
                     obj.first_access = timestamp
 
             if res['action'] == 'TCP_DENIED':
