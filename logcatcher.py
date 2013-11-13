@@ -194,7 +194,10 @@ class LogReceiver(LineReceiver):
             if not obj.username in self.log_processor.objects_requiring_update:
                 self.log_processor.objects_requiring_update.append(obj.username)
             pending_lines = self.log_processor.lines_recieved - self.log_processor.last_update_lines
-            lag = (datetime.datetime.now() - obj.last_access).seconds
+            if (datetime.datetime.now() > obj.last_access):
+                lag = (datetime.datetime.now() - obj.last_access).seconds
+            else:
+                lag = 0
 
         try:
             if (time.time() - self.log_processor.last_update >= 5.0):
