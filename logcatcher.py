@@ -221,6 +221,8 @@ class LogReceiver(LineReceiver):
                         lag,
                         pending_lines,
                     )
+                    print "datetime.datetime.now(): %s" % str(datetime.datetime.now())
+                    print "obj.last_access: %s" % obj.last_access
                     self.log_processor.last_update = time.time()
         except:
             pass
