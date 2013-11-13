@@ -29,7 +29,7 @@ class DataSender(LineReceiver):
 
     def __init__(self):
         global relay_clients, queue
-        print 'DataSender init called %s' % str(self)
+        #print 'DataSender init called %s' % str(self)
     
     def connectionMade(self):
         print("Client connection from %s" % self)
@@ -68,8 +68,7 @@ class LogProcessor():
                      '(?P<proxy_ip>\S+) (?P<datasize>\d+) (?P<client_datasize>\d+)')
     
     def __init__(self):
-        print 'LogProcessor init called %s' % str(self)
-
+        #print 'LogProcessor init called %s' % str(self)
         try:
             stats_obj = DailyStatistics.objects.get(date=datetime.datetime.now().date())
         except:
@@ -202,7 +201,6 @@ class LogReceiver(LineReceiver):
         try:
             if (time.time() - self.log_processor.last_update >= 5.0):
                 if (lag < 200) or (pending_lines >= 10000):
-                    print "Updating database"
                     while len(self.log_processor.objects_requiring_update)>0:
                         u_or_ip = self.log_processor.objects_requiring_update.pop()
                         try:
@@ -212,7 +210,7 @@ class LogReceiver(LineReceiver):
                         obj.save()
                     self.log_processor.last_update = time.time()
                     self.log_processor.last_update_lines = self.log_processor.lines_recieved
-                    print "[%s] Lines Processed since last update: %d - Total Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
+                    print "[%s]Updateing Database: Lines Processed since last update: %d - Total Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
                         str(datetime.datetime.now()),
                         pending_lines,
                         self.log_processor.lines_recieved,
@@ -226,8 +224,6 @@ class LogReceiver(LineReceiver):
                         lag,
                         pending_lines,
                     )
-                    print "datetime.datetime.now(): %s" % str(datetime.datetime.now())
-                    print "obj.last_access: %s" % obj.last_access
                     self.log_processor.last_update = time.time()
         except:
             pass
