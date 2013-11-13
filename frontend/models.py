@@ -28,11 +28,11 @@ class DailyExceptions(models.Model):
             return self.ip_addr
 
     def save(self):
+        super(DailyExceptions, self).save()
         if self.username != '':
             try:
                 userobj = UserLog.objects.get(date=self.date, username=self.username)
                 userobj.save()
-                print "%s user-log saved"
             except:
                 raise
         elif self.ip_addr != '':
@@ -41,7 +41,7 @@ class DailyExceptions(models.Model):
                 ipobj.save()
             except:
                 raise
-        super(DailyExceptions, self).save()
+
 
 class UserLog(models.Model):
     date = models.DateField()
@@ -79,6 +79,7 @@ class UserLog(models.Model):
     def save(self):
         self.blocked = self.is_blocked()
         super(UserLog, self).save()
+        print '%s-%s UserLog saved.' % (self.date, self.username)
 
     def __str__(self):
         return self.username
@@ -129,6 +130,7 @@ class IPLog(models.Model):
     def save(self):
         self.blocked = self.is_blocked()
         super(IPLog, self).save()
+        print '%s-%s IPLog saved.' % (self.date, self.ip_addr)
 
     def __str__(self):
         return self.ip_addr
