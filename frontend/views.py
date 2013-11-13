@@ -85,7 +85,7 @@ def generate_blocking_cpl(request):
     for item in iplog_qs:
         if item.is_blocked()
         blocked_ips.append(item)
-            
+
     context = {
             'blocked_for_quota_user_list': blocked_users,
             'blocked_for_quota_ip_list': blocked_ips,
