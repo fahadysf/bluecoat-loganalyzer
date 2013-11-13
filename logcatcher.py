@@ -161,7 +161,7 @@ class LogReceiver(LineReceiver):
             else:
                 obj.data_usage += int(res['datasize'])
             # Put the object in the requiring update queue
-            self.log_processor.userlog_dict[res['date']][res['username']] = obj
+            self.log_processor.userlog_dict[res['date']][res['src_ip']] = obj
             if not obj.ip_addr in self.log_processor.objects_requiring_update:
                 self.log_processor.objects_requiring_update.append(obj.ip_addr)
 
