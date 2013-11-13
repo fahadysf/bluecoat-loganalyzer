@@ -6,11 +6,13 @@ from frontend.models import UserLog, IPLog, DailyExceptions, PermanentLimitExcep
 
 class UserLogAdmin(admin.ModelAdmin):
     list_display = ('username','date','data_usage','deny_count','blocked')
+    readonly_fields = ('username','date','data_usage','deny_count','blocked')
     list_filter = ['blocked']
     search_fields = ('username',)
 
 class IPLogAdmin(admin.ModelAdmin):
     list_display = ('ip_addr','date','data_usage','deny_count','blocked')
+    readonly_fields = ('username','date','data_usage','deny_count','blocked')
     list_filter = ['blocked']
     search_fields = ('ip_addr',)
 

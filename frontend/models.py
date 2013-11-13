@@ -55,13 +55,12 @@ class UserLog(models.Model):
 
     def data_limit(self):
         try:
-            exception = PermanentLimitExceptions.objects.get(username=self.username)
+            exception = DailyExceptions.objects.get(date=self.date, username=self.username)
         except:
             try:
-                exception = DailyExceptions.objects.get(date=self.date, username=self.username)
+                exception = PermanentLimitExceptions.objects.get(username=self.username)
             except:
                 exception = None
-
         if exception:
             return exception.data_limit
         else:
@@ -106,10 +105,10 @@ class IPLog(models.Model):
 
     def data_limit(self):
         try:
-            exception = PermanentLimitExceptions.objects.get(ip_addr=self.ip_addr)
+            exception = DailyExceptions.objects.get(date=self.date, ip_addr=self.ip_addr)
         except:
             try:
-                exception = DailyExceptions.objects.get(date=self.date, ip_addr=self.ip_addr)
+                exception = PermanentLimitExceptions.objects.get(ip_addr=self.ip_addr)
             except:
                 exception = None
 
