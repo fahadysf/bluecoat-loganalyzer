@@ -123,8 +123,9 @@ class LogReceiver(LineReceiver):
             res =  self.log_processor.lre.match(line)
             if res != None:
                 res = res.groupdict()
-                res['date'] = ( datetime.datetime.strptime(res['date'], "%Y-%m-%d")
-                               +datetime.timedelta(hours=settings.UTC_OFFSET)).date()
+                timestamp = ( datetime.datetime.strptime(res['date']+res['timestamp'], "%Y-%m-%d %H:%M:%S")
+                               +datetime.timedelta(hours=settings.UTC_OFFSET))
+                res['date'] = timestamp.date()
             for key in queue:
                 queue[key].put(line)
                 key.have_data()
@@ -142,8 +143,7 @@ class LogReceiver(LineReceiver):
             # Initialize the object
             if self.log_processor.iplog_dict[res['date']].has_key(res['src_ip']):
                 obj = self.log_processor.iplog_dict[res['date']][res['src_ip']]
-                obj.last_access = datetime.datetime.strptime( res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
-                obj.last_access = obj.last_access + datetime.timedelta(hours=settings.UTC_OFFSET)
+                obj.last_access = timestamp
             else:
                 try:
                     obj = IPLog.objects.get(date=res['date'], ip_addr=res['src_ip'])
@@ -151,9 +151,8 @@ class LogReceiver(LineReceiver):
                     obj = IPLog()
                     obj.ip_addr = res['src_ip']
                     obj.date = res['date']
-                    obj.last_access = datetime.datetime.strptime( res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
-                    obj.last_access = obj.last_access + datetime.timedelta(hours=settings.UTC_OFFSET)
-                    obj.first_access = obj.last_access
+                    obj.last_access = timestamp
+                    obj.first_access = timestamp
                 self.log_processor.iplog_dict[res['date']][res['src_ip']] = obj
 
             if res['action'] == 'TCP_DENIED':
@@ -172,8 +171,7 @@ class LogReceiver(LineReceiver):
 
             if self.log_processor.userlog_dict[res['date']].has_key(res['username']):
                 obj = self.log_processor.userlog_dict[res['date']][res['username']]
-                obj.last_access = datetime.datetime.strptime( res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
-                obj.last_access = obj.last_access + datetime.timedelta(hours=settings.UTC_OFFSET)
+                obj.last_access =
             else:
                 try:
                     obj = UserLog.objects.get(date=res['date'], username=res['username'])
@@ -181,9 +179,8 @@ class LogReceiver(LineReceiver):
                     obj = UserLog()
                     obj.username = res['username']
                     obj.date = res['date']
-                    obj.last_access = datetime.datetime.strptime( res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
-                    obj.last_access = obj.last_access + datetime.timedelta(hours=settings.UTC_OFFSET)
-                    obj.first_access = obj.last_access
+                    obj.last_access = timestmap
+                    obj.first_access = timestamp
 
             if res['action'] == 'TCP_DENIED':
                 obj.deny_count += 1
