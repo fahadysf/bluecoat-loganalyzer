@@ -55,6 +55,7 @@ class DataSender(LineReceiver):
 class LogProcessor():
 
     last_update = time.time()
+    last_update_lines = 0
     userlog_dict = dict()
     iplog_dict = dict()
     objects_requiring_update = list()
@@ -189,14 +190,16 @@ class LogReceiver(LineReceiver):
                 obj.data_usage += int(res['datasize'])
             # Put the object in the requiring update queue
             self.log_processor.objects_requiring_update.append(obj)
-
-            if (time.time() - self.log_processor.last_update >= 5.0):
+            pending_lines = self.log_processor.lines_recieved - self.log_processor.last_update_lines
+            if (time.time() - self.log_processor.last_update >= 5.0) or :
                 while len(self.log_processor.objects_requiring_update)>0:
                     obj = self.log_processor.objects_requiring_update.pop()
                     obj.save()
                 self.log_processor.last_update = time.time()
-                print "[%s] Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
+                self.log_processor.last_update_lines = self.log_processor.lines_recieved
+                print "[%s] Lines Processed since last update: %d - Total Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
                     str(datetime.datetime.now()),
+                    pending_lines,
                     self.log_processor.lines_recieved,
                     len(queue.keys()),
                     str(obj.last_access),
