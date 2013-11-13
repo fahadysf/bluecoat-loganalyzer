@@ -80,10 +80,10 @@ def generate_blocking_cpl(request):
     blocked_users = list()
     blocked_ips = list()
     for item in userlog_qs:
-        if item.is_blocked()
+        if item.is_blocked():
         blocked_users.append(item)
     for item in iplog_qs:
-        if item.is_blocked()
+        if item.is_blocked():
         blocked_ips.append(item)
 
     context = {
