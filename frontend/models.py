@@ -32,6 +32,7 @@ class DailyExceptions(models.Model):
             try:
                 userobj = UserLog.objects.get(date=self.date, username=self.username)
                 userobj.save()
+                print "%s user-log saved"
             except:
                 raise
         elif self.ip_addr != '':
