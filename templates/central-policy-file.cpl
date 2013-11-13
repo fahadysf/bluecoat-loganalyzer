@@ -6,4 +6,4 @@ define condition blocked_for_quota_violation
 end
 
 <Proxy>
- condition=blocked_for_quota_violation DENY("You have been blocked until for exceeding ")
+ condition=blocked_for_quota_violation DENY("You have been blocked until the end of the the day for exceeding <br /> your daily Bandwidth quota")
