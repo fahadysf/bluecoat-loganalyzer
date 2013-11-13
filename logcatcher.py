@@ -133,8 +133,8 @@ class LogReceiver(LineReceiver):
             print '-----'+line+'\n\n\n\n'
             raise
         if res == {} or res==None:
-            print "NON LOG DATA:"+line
-
+            #print "NON LOG DATA:"+line
+            pass
         # For logs without usernames (unauthenticated IPs)
         elif res['username']=='-':
             if not self.log_processor.iplog_dict.has_key(res['date']):
