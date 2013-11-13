@@ -12,16 +12,15 @@ class UserLogAdmin(admin.ModelAdmin):
 class IPLogAdmin(admin.ModelAdmin):
     list_display = ('ip_addr','date','data_usage','deny_count','blocked')
     list_filter = ('data_usage','blocked')
-    search_fields = ('ip_addr',)
+    search_fields = ('ip_addr')
 
 class DailyExceptionsAdmin(admin.ModelAdmin):
-    list_display = ('date','username','ip_addr','data_limit'')
+    list_display = ('date','username','ip_addr','data_limit')
     list_filter = ('date','data_limit')
     search_fields = ('ip_addr','username')
 
-
 class PermanentLimitExceptionsAdmin(admin.ModelAdmin):
-    list_display = ('date','username','ip_addr','data_limit'')
+    list_display = ('date','username','ip_addr','data_limit')
     list_filter = ('date','data_limit')
     search_fields = ('ip_addr','username')
 
