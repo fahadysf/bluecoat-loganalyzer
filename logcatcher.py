@@ -192,20 +192,26 @@ class LogReceiver(LineReceiver):
             self.log_processor.objects_requiring_update.append(obj)
             pending_lines = self.log_processor.lines_recieved - self.log_processor.last_update_lines
             lag = (datetime.datetime.now() - obj.last_access).seconds
-            if (time.time() - self.log_processor.last_update >= 5.0) and (lag < 200):
-                while len(self.log_processor.objects_requiring_update)>0:
-                    obj = self.log_processor.objects_requiring_update.pop()
-                    obj.save()
-                self.log_processor.last_update = time.time()
-                self.log_processor.last_update_lines = self.log_processor.lines_recieved
-                print "[%s] Lines Processed since last update: %d - Total Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
-                    str(datetime.datetime.now()),
-                    pending_lines,
-                    self.log_processor.lines_recieved,
-                    len(queue.keys()),
-                    str(obj.last_access),
-                )
-                self.log_processor.update_stats()
+            if (time.time() - self.log_processor.last_update >= 5.0):
+                if (lag < 200):
+                    while len(self.log_processor.objects_requiring_update)>0:
+                        obj = self.log_processor.objects_requiring_update.pop()
+                        obj.save()
+                    self.log_processor.last_update = time.time()
+                    self.log_processor.last_update_lines = self.log_processor.lines_recieved
+                    print "[%s] Lines Processed since last update: %d - Total Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
+                        str(datetime.datetime.now()),
+                        pending_lines,
+                        self.log_processor.lines_recieved,
+                        len(queue.keys()),
+                        str(obj.last_access),
+                    )
+                    self.log_processor.update_stats()
+                else:
+                    print "[%s] Lag greater than 200 seconds. Processing more lines before updating DB. Pending Lines: %d" %(
+                        str(datetime.datetime.now()),
+                        pending_lines,
+                    )
             return
         
 class LogRecieverFactory(ServerFactory):
