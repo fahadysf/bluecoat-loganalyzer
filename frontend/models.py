@@ -27,6 +27,21 @@ class DailyExceptions(models.Model):
         else:
             return self.ip_addr
 
+    def save(self):
+        if self.username != '':
+            try:
+                userobj = UserLog.objects.get(username=self.username)
+                userobj.save()
+            except:
+                pass
+        elif if self.ip_addr != '':
+            try:
+                ipobj = IPLog.objects.get(ip_addr=self.ip_addr)
+                ipobj.save()
+            except:
+                pass
+        super(DailyExceptions, self).save()
+        
 class UserLog(models.Model):
     date = models.DateField()
     first_access = models.DateTimeField(auto_now_add=True, blank=True)
