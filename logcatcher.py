@@ -137,15 +137,18 @@ class LogReceiver(LineReceiver):
             # Initialize the object
             if self.log_processor.iplog_dict[res['date']].has_key(res['src_ip']):
                 obj = self.log_processor.iplog_dict[res['date']][res['src_ip']]
-                obj.last_access = res['date']+' '+res['timestamp']
+                obj.last_access = datetime.datetime.strptime( res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
+                obj.last_access = obj.last_access + datetime.timedelta(hours=settings.UTC_OFFSET)
             else:
                 try:
                     obj = IPLog.objects.get(date=res['date'], ip_addr=res['src_ip'])
                 except:
                     obj = IPLog()
                     obj.ip_addr = res['src_ip']
-                    obj.date = res['date']
-                    obj.last_access = res['date']+' '+res['timestamp']
+                    obj.date = datetime.datetime.strptime(res['date'], "%Y-%m-%d").date()
+                    obj.last_access = datetime.datetime.strptime( res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
+                    obj.last_access = obj.last_access + datetime.timedelta(hours=settings.UTC_OFFSET)
+                    obj.first_access = obj.last_access
                 self.log_processor.iplog_dict[res['date']][res['src_ip']] = obj
 
             if res['action'] == 'TCP_DENIED':
@@ -162,15 +165,19 @@ class LogReceiver(LineReceiver):
 
             if self.log_processor.userlog_dict[res['date']].has_key(res['username']):
                 obj = self.log_processor.userlog_dict[res['date']][res['username']]
-                obj.last_access = res['date']+' '+res['timestamp']
+                obj.last_access = datetime.datetime.strptime( res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
+                obj.last_access = obj.last_access + datetime.timedelta(hours=settings.UTC_OFFSET)
             else:
                 try:
                     obj = UserLog.objects.get(date=res['date'], username=res['username'])
                 except:
                     obj = UserLog()
                     obj.username = res['username']
-                    obj.date = res['date']
-                    obj.last_access = res['date']+' '+res['timestamp']
+                    obj.date = (datetime.datetime.strptime(res['date'], "%Y-%m-%d")
+                                + datetime.timedelta(hours=settings.UTC_OFFSET)).date()
+                    obj.last_access = datetime.datetime.strptime( res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
+                    obj.last_access = obj.last_access + datetime.timedelta(hours=settings.UTC_OFFSET)
+                    obj.first_access = obj.last_access
                 self.log_processor.userlog_dict[res['date']][res['username']] = obj
 
             if res['action'] == 'TCP_DENIED':
@@ -189,7 +196,8 @@ class LogReceiver(LineReceiver):
                 print "[%s] Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
                     str(datetime.datetime.now()),
                     self.log_processor.lines_recieved,
-                    len(queue.keys()), res['date']+' '+res['timestamp']
+                    len(queue.keys()),
+                    str(obj.last_access),
                 )
                 self.log_processor.update_stats()
             return
