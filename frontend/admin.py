@@ -16,12 +16,10 @@ class IPLogAdmin(admin.ModelAdmin):
 
 class DailyExceptionsAdmin(admin.ModelAdmin):
     list_display = ('date','username','ip_addr','data_limit')
-    list_filter = ('username','ip_addr','data_limit')
     search_fields = ('ip_addr','username')
 
 class PermanentLimitExceptionsAdmin(admin.ModelAdmin):
     list_display = ('username','ip_addr','data_limit')
-    list_filter = ('username','ip_addr','data_limit')
     search_fields = ('ip_addr','username')
 
 admin.site.register(UserLog, UserLogAdmin)
