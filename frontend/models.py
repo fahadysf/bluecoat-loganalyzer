@@ -33,13 +33,13 @@ class DailyExceptions(models.Model):
                 userobj = UserLog.objects.get(username=self.username)
                 userobj.save()
             except:
-                pass
+                raise
         elif self.ip_addr != '':
             try:
                 ipobj = IPLog.objects.get(ip_addr=self.ip_addr)
                 ipobj.save()
             except:
-                pass
+                raise
         super(DailyExceptions, self).save()
 
 class UserLog(models.Model):
