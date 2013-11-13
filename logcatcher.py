@@ -181,17 +181,17 @@ class LogReceiver(LineReceiver):
             # Put the object in the requiring update queue
             self.log_processor.objects_requiring_update.append(obj)
 
-            if (time.time() - self.log_processor.last_update >= 5.0):
-                while len(self.log_processor.objects_requiring_update)>0:
-                    obj = self.log_processor.objects_requiring_update.pop()
-                    obj.save()
-                self.log_processor.last_update = time.time()
-                print "[%s] Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
-                    str(datetime.datetime.now()),
-                    self.log_processor.lines_recieved,
-                    len(queue.keys()), res['date']+' '+res['timestamp']
-                )
-                self.log_processor.update_stats()
+        if (time.time() - self.log_processor.last_update >= 5.0):
+            while len(self.log_processor.objects_requiring_update)>0:
+                obj = self.log_processor.objects_requiring_update.pop()
+                obj.save()
+            self.log_processor.last_update = time.time()
+            print "[%s] Lines Processed: %d - Relay Clients Connected: %d - Last Log Timestamp: %s" % (
+                str(datetime.datetime.now()),
+                self.log_processor.lines_recieved,
+                len(queue.keys()), res['date']+' '+res['timestamp']
+            )
+            self.log_processor.update_stats()
         return
         
 class LogRecieverFactory(ServerFactory):
