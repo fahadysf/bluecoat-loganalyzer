@@ -212,6 +212,7 @@ class LogReceiver(LineReceiver):
                         str(datetime.datetime.now()),
                         pending_lines,
                     )
+                    self.log_processor.last_update = time.time()
             return
         
 class LogRecieverFactory(ServerFactory):
