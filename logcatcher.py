@@ -123,7 +123,7 @@ class LogReceiver(LineReceiver):
             res =  self.log_processor.lre.match(line)
             if res != None:
                 res = res.groupdict()
-                timestamp = ( datetime.datetime.strptime(res['date']+res['timestamp'], "%Y-%m-%d %H:%M:%S")
+                timestamp = ( datetime.datetime.strptime(res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
                                +datetime.timedelta(hours=settings.UTC_OFFSET))
                 res['date'] = timestamp.date()
             for key in queue:
