@@ -15,13 +15,24 @@ class PermanentLimitExceptions(models.Model):
         else:
             return self.ip_addr
 
+class DailyExceptions(models.Model):
+    date = models.DateField()
+    username = models.CharField(blank=True, max_length=200, default='')
+    ip_addr = models.CharField(blank=True, max_length=200, default='')
+    data_limit = models.IntegerField(default=0)
+
+    def __str__(self):
+        if self.username != '':
+            return self.username
+        else:
+            return self.ip_addr
+
 class UserLog(models.Model):
     date = models.DateField()
     first_access = models.DateTimeField(auto_now_add=True, blank=True)
     last_access = models.DateTimeField(auto_now_add=True, blank=True)
     deny_count = models.IntegerField(default=0)
     data_usage = models.IntegerField(default=0)
-    custom_limit = models.IntegerField(default=-1)
     denied_data_size = models.IntegerField(default=0)
     username = models.CharField(max_length=200)
     blocked = models.BooleanField(default=False)
@@ -30,11 +41,13 @@ class UserLog(models.Model):
         try:
             exception = PermanentLimitExceptions.objects.get(username=self.username)
         except:
-            exception = None
+            try:
+                exception = DailyExceptions.objects.get(date=self.date, username=self.username)
+            except:
+                exception = None
+
         if exception:
             return exception.data_limit
-        elif self.custom_limit != -1:
-            return self.custom_limit
         else:
             return settings.DEFAULT_DATA_LIMIT
 
@@ -77,9 +90,12 @@ class IPLog(models.Model):
 
     def data_limit(self):
         try:
-            exception = PermanentLimitExceptions.objects.get(username=self.username)
+            exception = PermanentLimitExceptions.objects.get(ip_addr=self.ip_addr)
         except:
-            exception = None
+            try:
+                exception = DailyExceptions.objects.get(date=self.date, ip_addr=self.ip_addr)
+            except:
+                exception = None
 
         if exception:
             return exception.data_limit
