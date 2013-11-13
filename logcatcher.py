@@ -171,7 +171,7 @@ class LogReceiver(LineReceiver):
 
             if self.log_processor.userlog_dict[res['date']].has_key(res['username']):
                 obj = self.log_processor.userlog_dict[res['date']][res['username']]
-                obj.last_access =
+                obj.last_access = timestamp
             else:
                 try:
                     obj = UserLog.objects.get(date=res['date'], username=res['username'])
