@@ -20,7 +20,7 @@ class DailyExceptionsAdmin(admin.ModelAdmin):
     search_fields = ('ip_addr','username')
 
 class PermanentLimitExceptionsAdmin(admin.ModelAdmin):
-    list_display = ('date','username','ip_addr','data_limit')
+    list_display = ('username','ip_addr','data_limit')
     list_filter = ('date','data_limit')
     search_fields = ('ip_addr','username')
 
