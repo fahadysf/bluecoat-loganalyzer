@@ -193,7 +193,7 @@ class LogReceiver(LineReceiver):
             pending_lines = self.log_processor.lines_recieved - self.log_processor.last_update_lines
             lag = (datetime.datetime.now() - obj.last_access).seconds
             if (time.time() - self.log_processor.last_update >= 5.0):
-                if (lag < 200):
+                if (lag < 200) or (pending_lines >= 100000):
                     while len(self.log_processor.objects_requiring_update)>0:
                         obj = self.log_processor.objects_requiring_update.pop()
                         obj.save()
