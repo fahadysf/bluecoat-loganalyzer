@@ -123,6 +123,8 @@ class LogReceiver(LineReceiver):
             res =  self.log_processor.lre.match(line)
             if res != None:
                 res = res.groupdict()
+                res['date'] = ( datetime.datetime.strptime(res['date'], "%Y-%m-%d")
+                               +datetime.timedelta(hours=settings.UTC_OFFSET)).date()
             for key in queue:
                 queue[key].put(line)
                 key.have_data()
@@ -148,7 +150,7 @@ class LogReceiver(LineReceiver):
                 except:
                     obj = IPLog()
                     obj.ip_addr = res['src_ip']
-                    obj.date = datetime.datetime.strptime(res['date'], "%Y-%m-%d").date()
+                    obj.date = res['date']
                     obj.last_access = datetime.datetime.strptime( res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
                     obj.last_access = obj.last_access + datetime.timedelta(hours=settings.UTC_OFFSET)
                     obj.first_access = obj.last_access
@@ -178,8 +180,7 @@ class LogReceiver(LineReceiver):
                 except:
                     obj = UserLog()
                     obj.username = res['username']
-                    obj.date = (datetime.datetime.strptime(res['date'], "%Y-%m-%d")
-                                + datetime.timedelta(hours=settings.UTC_OFFSET)).date()
+                    obj.date = res['date']
                     obj.last_access = datetime.datetime.strptime( res['date']+' '+res['timestamp'], "%Y-%m-%d %H:%M:%S")
                     obj.last_access = obj.last_access + datetime.timedelta(hours=settings.UTC_OFFSET)
                     obj.first_access = obj.last_access
