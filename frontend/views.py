@@ -85,10 +85,10 @@ def generate_blocking_cpl(request):
         else:
             blocked_users.append(obj)
     for obj in iplog_qs:
-        if obj.is_blocked() == False:
-            obj.save()
-        else:
+        if obj.is_blocked() == True:
             blocked_ips.append(obj)
+        obj.save()
+
     context = {
             'blocked_for_quota_user_list': list(blocked_users),
             'blocked_for_quota_ip_list': list(blocked_ips),
