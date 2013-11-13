@@ -218,8 +218,9 @@ class LogReceiver(LineReceiver):
                     )
                     self.log_processor.update_stats()
                 else:
-                    print "[%s] Lag greater than 200 seconds. Processing more lines before updating DB. Pending Lines: %d" %(
+                    print "[%s] Lag greater than 200 seconds (%ds). Processing more lines before updating DB. Pending Lines: %d" %(
                         str(datetime.datetime.now()),
+                        lag,
                         pending_lines,
                     )
                     self.log_processor.last_update = time.time()
