@@ -147,13 +147,13 @@ class LogReceiver(LineReceiver):
             else:
                 try:
                     obj = IPLog.objects.get(date=res['date'], ip_addr=res['src_ip'])
+                    self.log_processor.iplog_dict[res['date']][res['src_ip']] = obj
                 except:
                     obj = IPLog()
                     obj.ip_addr = res['src_ip']
                     obj.date = res['date']
                     obj.last_access = timestamp
                     obj.first_access = timestamp
-                self.log_processor.iplog_dict[res['date']][res['src_ip']] = obj
 
             if res['action'] == 'TCP_DENIED':
                 obj.deny_count += 1
@@ -161,7 +161,7 @@ class LogReceiver(LineReceiver):
             else:
                 obj.data_usage += int(res['datasize'])
             # Put the object in the requiring update queue
-            self.log_processor.userlog_dict[res['date']][res['src_ip']] = obj
+            self.log_processor.iplog_dict[res['date']][res['src_ip']] = obj
             if not obj.ip_addr in self.log_processor.objects_requiring_update:
                 self.log_processor.objects_requiring_update.append(obj.ip_addr)
 
@@ -175,12 +175,14 @@ class LogReceiver(LineReceiver):
             else:
                 try:
                     obj = UserLog.objects.get(date=res['date'], username=res['username'])
+
                 except:
                     obj = UserLog()
                     obj.username = res['username']
                     obj.date = res['date']
                     obj.last_access = timestamp
                     obj.first_access = timestamp
+
 
             if res['action'] == 'TCP_DENIED':
                 obj.deny_count += 1
