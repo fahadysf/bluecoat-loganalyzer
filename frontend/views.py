@@ -75,20 +75,23 @@ def json_data(request, type=""):
     return HttpResponse(json.dumps( dict_result , sort_keys=True, indent=4, separators=(',', ': ') ), content_type="application/json")
 
 def generate_blocking_cpl(request):
-    userlog_qs = UserLog.objects.filter(date=datetime.datetime.utcnow())
-    iplog_qs = UserLog.objects.filter(date=datetime.datetime.utcnow())
+    userlog_qs = UserLog.objects.filter(blocked=True, date=datetime.datetime.utcnow())
+    iplog_qs = UserLog.objects.filter(blocked=True, date=datetime.datetime.utcnow())
     blocked_users = list()
     blocked_ips = list()
-    for item in userlog_qs:
-        if item.is_blocked():
-            blocked_users.append(item)
-    for item in iplog_qs:
-        if item.is_blocked():
-            blocked_ips.append(item)
-
+    for obj in userlog_qs:
+        if obj.is_blocked() == False:
+            obj.save()
+        else:
+            blocked_users.append(obj)
+    for obj in iplog_qs:
+        if obj.is_blocked() == False:
+            obj.save()
+        else:
+            blocked_ips.append(obj)
     context = {
-            'blocked_for_quota_user_list': blocked_users,
-            'blocked_for_quota_ip_list': blocked_ips,
+            'blocked_for_quota_user_list': list(blocked_users),
+            'blocked_for_quota_ip_list': list(blocked_ips),
             }
     resp = render_to_response('central-policy-file.cpl', context)
     resp['Content-Type'] = 'text/plain'
