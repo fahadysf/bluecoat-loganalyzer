@@ -79,7 +79,6 @@ class UserLog(models.Model):
     def save(self):
         self.blocked = self.is_blocked()
         super(UserLog, self).save()
-        print '%s-%s UserLog saved.' % (self.date, self.username)
 
     def __str__(self):
         return self.username
@@ -130,7 +129,6 @@ class IPLog(models.Model):
     def save(self):
         self.blocked = self.is_blocked()
         super(IPLog, self).save()
-        print '%s-%s IPLog saved.' % (self.date, self.ip_addr)
 
     def __str__(self):
         return self.ip_addr
