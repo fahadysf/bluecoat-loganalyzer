@@ -7,6 +7,8 @@ import datetime, time
 import time
 
 from django.db.models import Sum, F
+import settings
+
 from twisted.internet.protocol import ServerFactory
 from twisted.protocols.basic import LineReceiver
 from twisted.python import log
