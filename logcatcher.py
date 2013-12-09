@@ -7,6 +7,7 @@ import datetime, time
 import time
 
 from django.db.models import Sum, F
+from django import db
 import settings
 
 from twisted.internet.protocol import ServerFactory
@@ -224,7 +225,9 @@ class LogReceiver(LineReceiver):
                         lag,
                         pending_lines,
                     )
-                    self.log_processor.last_update = time.time()
+                db.reset_queries()
+                self.log_processor.last_update = time.time()
+
         except:
             pass
         return
