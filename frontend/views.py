@@ -12,8 +12,9 @@ def bw_report_users(request, datestr=None):
         dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
         userloglist_qs = UserLog.objects.filter(date=dateobj).order_by('-data_usage')
     else:
-        userloglist_qs = UserLog.objects.filter(date=datetime.datetime.now().date()).order_by('-data_usage')
-    context = {'userlogs': userloglist_qs[:100], }
+        dateobj = datetime.datetime.now().date()
+        userloglist_qs = UserLog.objects.filter(date=dateobj).order_by('-data_usage')
+    context = {'userlogs': userloglist_qs[:100], date: dateobj.strftime('%d-%m-%Y')}
     return render_to_response('top-users-bw.html', context)
 
 def bw_report_ips(request):
