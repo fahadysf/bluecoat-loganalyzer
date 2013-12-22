@@ -304,7 +304,12 @@ function template_functions(){
 	$('.cleditor').cleditor();
 	
 	/* ---------- Datapicker ---------- */
-	$('.datepicker').datepicker({ dateFormat: "dd-mm-yy" });
+	$('.datepicker').datepicker({
+        dateFormat: "dd-mm-yy"
+        onSelect: function(dateText, inst){
+            $(location).attr('href', location.href + '?;date='+dateText;
+        }
+    });
 	
 	/* ---------- Notifications ---------- */
 	$('.noty').click(function(e){

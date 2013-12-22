@@ -10,10 +10,12 @@ def bw_report_users(request, datestr=None):
     if datestr!=None:
         ts = time.strptime(datestr, '%d-%m-%Y')
         dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
-        userloglist_qs = UserLog.objects.filter(date=dateobj).order_by('-data_usage')
+    elif request.GET['date']!=None:
+        ts = time.strptime(request.GET['date'], '%d-%m-%Y')
+        dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
     else:
         dateobj = datetime.datetime.now().date()
-        userloglist_qs = UserLog.objects.filter(date=dateobj).order_by('-data_usage')
+    userloglist_qs = UserLog.objects.filter(date=dateobj).order_by('-data_usage')
     context = {'userlogs': userloglist_qs[:100], 'date': dateobj.strftime('%d-%m-%Y')}
     return render_to_response('top-users-bw.html', context)
 
