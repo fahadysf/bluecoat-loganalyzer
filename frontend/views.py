@@ -32,7 +32,7 @@ def deny_count_report_users(request):
         dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
     else:
         dateobj = datetime.datetime.now().date()
-    userloglist_qs = UserLog.objects.filter(date=datetime.datetime.now().date()).order_by('-deny_count')[:100]
+    userloglist_qs = UserLog.objects.filter(date=dateobj).order_by('-deny_count')[:100]
     context = {'userlogs': userloglist_qs, 'date': dateobj.strftime('%d-%m-%Y')}
     return render_to_response('top-users-deny-count.html', context)
 
@@ -42,7 +42,7 @@ def deny_count_report_ips(request):
         dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
     else:
         dateobj = datetime.datetime.now().date()
-    iploglist_qs = IPLog.objects.filter(date=datetime.datetime.now().date()).order_by('-deny_count')[:100]
+    iploglist_qs = IPLog.objects.filter(date=dateobj).order_by('-deny_count')[:100]
     context = {'iplogs': iploglist_qs, 'date': dateobj.strftime('%d-%m-%Y')}
     return render_to_response('top-ips-deny-count.html', context)
 
