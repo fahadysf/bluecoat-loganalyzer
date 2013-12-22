@@ -8,6 +8,7 @@ from frontend.models import UserLog, IPLog, DailyStatistics
 
 def bw_report_users(request, date=None):
     if date:
+        raise
         ts = time.strptime(date, '%d-%m-%Y')
         dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
         userloglist_qs = UserLog.objects.filter(date=dateobj).order_by('-data_usage')
