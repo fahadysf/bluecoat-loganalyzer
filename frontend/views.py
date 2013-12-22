@@ -6,8 +6,13 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from frontend.models import UserLog, IPLog, DailyStatistics
 
-def bw_report_users(request):
-    userloglist_qs = UserLog.objects.filter(date=datetime.datetime.now().date()).order_by('-data_usage')
+def bw_report_users(request, date):
+    if date:
+        ts = time.strptime(date, '%d-%m-%Y')
+        dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
+        userloglist_qs = UserLog.objects.filter(date=dateobj).order_by('-data_usage')
+    else:
+        userloglist_qs = UserLog.objects.filter(date=datetime.datetime.now().date()).order_by('-data_usage')
     context = {'userlogs': userloglist_qs[:100], }
     return render_to_response('top-users-bw.html', context)
 
