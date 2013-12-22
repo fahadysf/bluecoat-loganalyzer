@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from frontend.models import UserLog, IPLog, DailyStatistics
 
-def bw_report_users(request, date):
+def bw_report_users(request, date=None):
     if date:
         ts = time.strptime(date, '%d-%m-%Y')
         dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
