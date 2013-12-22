@@ -318,7 +318,7 @@ function template_functions(){
     $('.datepicker').datepicker({
         dateFormat: "dd-mm-yy",
         onSelect: function(dateText, inst){
-            $(location).attr('href', updateQueryStringParameter(location.href, date, dateText);
+            $(location).attr('href', updateQueryStringParameter(location.href, date, dateText_));
         }
     });
 	
