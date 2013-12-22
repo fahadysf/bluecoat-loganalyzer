@@ -7,9 +7,9 @@ from django.shortcuts import render_to_response
 from frontend.models import UserLog, IPLog, DailyStatistics
 
 def bw_report_users(request, date=None):
-    if date:
+    if datestr!=None:
         raise
-        ts = time.strptime(date, '%d-%m-%Y')
+        ts = time.strptime(datestr, '%d-%m-%Y')
         dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
         userloglist_qs = UserLog.objects.filter(date=dateobj).order_by('-data_usage')
     else:
@@ -108,4 +108,4 @@ def user_stats(request, username=None):
     return render_to_response('user-stats.html', context)
 
 def index(request):
-    return bw_report_users(request)
+    return bw_report_users(request, date=None)

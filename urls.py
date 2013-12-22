@@ -7,7 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'bcloganalyzer.frontend.views.index', name='index'),
-    url(r'^bw-users/(?P<date>)\S+', 'bcloganalyzer.frontend.views.bw_report_users', name='bw_report_users'),
+    url(r'^bw-users/(?P<datestr>)\S+', 'bcloganalyzer.frontend.views.bw_report_users', name='bw_report_users'),
     url(r'^deny-count-users/$', 'bcloganalyzer.frontend.views.deny_count_report_users', name='bw_report_ips'),
     url(r'^bw-unauthenticated-ips/$', 'bcloganalyzer.frontend.views.bw_report_ips', name='deny_count_report_users'),
     url(r'^deny-count-unauthenticated-ips/', 'bcloganalyzer.frontend.views.deny_count_report_ips', name='deny_count_report_ips'),
