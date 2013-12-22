@@ -305,7 +305,7 @@ function template_functions(){
 	
 	/* ---------- Datapicker ---------- */
 	$('.datepicker').datepicker({
-        dateFormat: "dd-mm-yy"
+        dateFormat: "dd-mm-yy",
         onSelect: function(dateText, inst){
             $(location).attr('href', location.href + '?;date=' + dateText);
         }
