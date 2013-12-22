@@ -17,18 +17,33 @@ def bw_report_users(request, datestr=None):
     return render_to_response('top-users-bw.html', context)
 
 def bw_report_ips(request):
-    iploglist_qs = IPLog.objects.filter(date=datetime.datetime.now().date()).order_by('-data_usage')[:100]
-    context = {'iplogs': iploglist_qs}
+    if request.GET.has_key('date'):
+        ts = time.strptime(request.GET['date'], '%d-%m-%Y')
+        dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
+    else:
+        dateobj = datetime.datetime.now().date()
+    iploglist_qs = IPLog.objects.filter(date=dateobj).order_by('-data_usage')[:100]
+    context = {'iplogs': iploglist_qs, 'date': dateobj.strftime('%d-%m-%Y')}
     return render_to_response('top-ips-bw.html', context)
 
 def deny_count_report_users(request):
+    if request.GET.has_key('date'):
+        ts = time.strptime(request.GET['date'], '%d-%m-%Y')
+        dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
+    else:
+        dateobj = datetime.datetime.now().date()
     userloglist_qs = UserLog.objects.filter(date=datetime.datetime.now().date()).order_by('-deny_count')[:100]
-    context = {'userlogs': userloglist_qs}
+    context = {'userlogs': userloglist_qs, 'date': dateobj.strftime('%d-%m-%Y')}
     return render_to_response('top-users-deny-count.html', context)
-    
+
 def deny_count_report_ips(request):
+    if request.GET.has_key('date'):
+        ts = time.strptime(request.GET['date'], '%d-%m-%Y')
+        dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
+    else:
+        dateobj = datetime.datetime.now().date()
     iploglist_qs = IPLog.objects.filter(date=datetime.datetime.now().date()).order_by('-deny_count')[:100]
-    context = {'iplogs': iploglist_qs}
+    context = {'iplogs': iploglist_qs, 'date': dateobj.strftime('%d-%m-%Y')}
     return render_to_response('top-ips-deny-count.html', context)
 
 def daily_stats(request):
