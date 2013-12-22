@@ -7,7 +7,7 @@ from django.shortcuts import render_to_response
 from frontend.models import UserLog, IPLog, DailyStatistics
 
 def bw_report_users(request, datestr=None):
-    if request.GET['date']!=None:
+    if request.GET.has_key('date'):
         ts = time.strptime(request.GET['date'], '%d-%m-%Y')
         dateobj = datetime.datetime.fromtimestamp(time.mktime(ts)).date()
     else:
